@@ -3,7 +3,7 @@
 Assumption:
   1. There is only 1 supplier. This Shopping System will only sell what this supplier supplys.
   2. A supplier can have multiple accounts as a supplier can have multiple workers.
-  3.
+  3. While the Bank object should be an interface, it's processes are automated.
   
   
 Features to be add:
