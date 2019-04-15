@@ -13,7 +13,7 @@ class Supplier extends User {
     }
 
     public Order retrieveOrder() {
-        return new Order(new Cart(), 0.0, new Customer("", "", "", "", "", ""), new Bank(new HashMap<String,Double>()));
+        return new Order(new Cart(), "", new Bank(new HashMap<String,Double>()));
     }
 
     public Order selectOrder(Order order) {
