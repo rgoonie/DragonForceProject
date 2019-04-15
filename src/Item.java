@@ -9,4 +9,8 @@ class Item {
         this.description = description;
     }
 
+    public double getPrice() {
+        return this.price;
+    }
+
 }
