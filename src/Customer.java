@@ -23,7 +23,7 @@ class Customer extends User {
      * Places the order and empties the cart
      */
     public void orderItems() {
-        orders.add(new Order(this.cart, this.creditCardNumber, this.bank));
+        this.orders.add(new Order(this.cart, this.creditCardNumber, this.bank));
         this.cart = new Cart();
     }
 
