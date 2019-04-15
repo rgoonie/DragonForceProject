@@ -41,4 +41,8 @@ class Cart {
         return total;
     }
 
+    public HashMap<Item, Double> getItems() {
+        return this.items;
+    }
+
 }
