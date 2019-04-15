@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.concurrent.ThreadLocalRandom;
 
 class Bank {
 
@@ -11,7 +12,7 @@ class Bank {
     public double processOrder(String card, double total) {
         if(userInfo.containsKey(card)) {
             if(total > userInfo.get(card)) {
-                return 2; // Success 
+                return ThreadLocalRandom.current().nextInt(2,101); // Success 
             } else {
                 return 1; // Insufficient funds
             }
