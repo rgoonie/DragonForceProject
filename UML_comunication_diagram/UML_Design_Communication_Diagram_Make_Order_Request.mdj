@@ -3691,11 +3691,11 @@
 								"$ref": "AAAAAAFF+qBtyKM79qY="
 							},
 							"font": "Arial;13;0",
-							"left": 920,
-							"top": 184,
-							"width": 225,
-							"height": 53,
-							"text": "A3: System requests items and prices from user\nA7: Requests cc#"
+							"left": 896,
+							"top": 168,
+							"width": 289,
+							"height": 55,
+							"text": "A3: System requests items and prices from user\nA7: Requests cc#\nA11: System changes order status to ordered"
 						},
 						{
 							"_type": "UMLTextView",
