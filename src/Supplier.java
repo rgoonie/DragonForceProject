@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 
 class Supplier extends User {
@@ -14,7 +13,7 @@ class Supplier extends User {
     }
 
     public Order retrieveOrder() {
-        return new Order(new ArrayList<Item>(), 0.0, "");
+        return new Order(new Cart(), "", new Bank(new HashMap<String,Double>()));
     }
 
     public Order selectOrder(Order order) {
@@ -26,7 +25,7 @@ class Supplier extends User {
     }
 
     public boolean checkAvalibility(Item item) {
-        return false;
+        return item.getAmount() > 0;
     }
 
 }

@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 
-class System {
+class ShoppingSystem {
 
     private ArrayList <User> currentUsers;
 
-    public System(){
+    public ShoppingSystem(){
         this.currentUsers = new ArrayList();
     }
 

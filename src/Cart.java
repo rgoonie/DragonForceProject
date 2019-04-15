@@ -1,13 +1,14 @@
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 class Cart {
 
     private double total;
-    private ArrayList<String> items;
+    private HashMap<Item, Double> items;
 
     public Cart() {
         this.total = 0.0;
-        this.items = new ArrayList();
+        this.items = new HashMap<Item, Double>();
     }
 
     /**
@@ -16,7 +17,8 @@ class Cart {
      * @param quantity The amount of the item to be added
      */
     public void addItem(Item item, double quantity) {
-
+        items.put(item, quantity);
+        updateTotal();
     }
 
     /**
@@ -24,7 +26,23 @@ class Cart {
      * @param item The time to be removed from the cart
      */
     public void removeItem(Item item) {
+        items.remove(item);
+        updateTotal();
+    }
 
+    private void updateTotal() {
+        total = 0.0;
+        for(Map.Entry<Item, Double> item: items.entrySet()) {
+            total += item.getKey().getPrice() * item.getValue();
+        }
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public HashMap<Item, Double> getItems() {
+        return this.items;
     }
 
 }

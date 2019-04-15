@@ -1,17 +1,34 @@
-import java.util.ArrayList;
-
 class Order {
 
-    private String status, customerId;
+    private String status;
     private double authNumber, total;
-    private ArrayList<Item> order;
+    private Cart cart;
 
-    public Order(ArrayList<Item> order, double total, String customerId) {
+    public Order(Cart cart, String cardNumber, Bank bank) {
         this.status = "PENDING";
-        this.customerId = customerId;
-        this.authNumber = 0.0;
-        this.total = total;
-        this.order = order;
+        this.total = cart.getTotal();
+        this.cart = cart;
+        this.authNumber = bank.processOrder(cardNumber, cart.getTotal());
+    }
+
+    public Cart getCart() {
+        return this.cart;
+    }
+
+    public String getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(String newStatus) {
+        this.status = newStatus;
+    }
+
+    public double getAuthNumber() {
+        return this.authNumber;
+    }
+
+    public double getTotal() {
+        return this.total;
     }
 
 }
