@@ -2,8 +2,9 @@ abstract class User {
 
     protected String id, password;
 
-    public User() {
-
+    public User(String id, String password) {
+        this.id = id;
+        this.password = password;
     }
 
     /**

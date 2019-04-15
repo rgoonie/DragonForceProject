@@ -2,8 +2,12 @@ class Customer extends User {
 
     private String phoneNumber, address, name, creditCardNumber;
 
-    public Customer() {
-        super();
+    public Customer(String id, String password, String phoneNumber, String address, String name, String creditCardNumber) {
+        super(id, password);
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.name = name;
+        this.creditCardNumber = creditCardNumber;
     }
 
     /**

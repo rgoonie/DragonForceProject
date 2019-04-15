@@ -5,7 +5,7 @@ class System {
     private ArrayList <User> currentUsers;
 
     public System(){
-
+        this.currentUsers = new ArrayList();
     }
 
     /**

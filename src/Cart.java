@@ -6,7 +6,8 @@ class Cart {
     private ArrayList<String> items;
 
     public Cart() {
-
+        this.total = 0.0;
+        this.items = new ArrayList();
     }
 
 }

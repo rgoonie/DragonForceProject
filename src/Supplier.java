@@ -1,7 +1,7 @@
 class Supplier extends User {
 
-    public Supplier() {
-        super();
+    public Supplier(String id, String password) {
+        super(id, password);
     }
 
     public boolean createAccount() {
