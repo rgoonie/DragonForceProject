@@ -1,13 +1,13 @@
-import java.util.ArrayList;
+import java.util.HashMap;
 
 class Cart {
 
     private double total;
-    private ArrayList<String> items;
+    private HashMap<Item, Double> items;
 
     public Cart() {
         this.total = 0.0;
-        this.items = new ArrayList();
+        this.items = new HashMap();
     }
 
     /**
@@ -16,7 +16,7 @@ class Cart {
      * @param quantity The amount of the item to be added
      */
     public void addItem(Item item, double quantity) {
-
+        items.put(item, quantity);
     }
 
     /**
@@ -24,7 +24,7 @@ class Cart {
      * @param item The time to be removed from the cart
      */
     public void removeItem(Item item) {
-
+        items.remove(item);
     }
 
 }
