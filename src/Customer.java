@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Scanner;
 
 class Customer extends User {
 
@@ -28,7 +29,26 @@ class Customer extends User {
     }
 
     public boolean createAccount() {
-        return false;
+        Scanner sc = new Scanner(System.in);
+        boolean success = true;
+        String inpID, inpPassword, inpPhoneNumber, inpAddress, inpName, inpCreditCardNumber;
+        try {
+            System.out.print("Enter an ID: ");
+            inpID = sc.nextLine();
+            System.out.print("\nEnter a password: ");
+            inpPassword = sc.nextLine();
+            System.out.print("\nEnter your address: ");
+            inpAddress = sc.nextLine();
+            System.out.print("\nEnter your phone number: ");
+            inpPhoneNumber = sc.nextLine();
+            System.out.print("\nEnter your credit card number: ");
+            inpCreditCardNumber = sc.nextLine();
+        } catch(Exception e) {
+            success = false;
+        } finally {
+            sc.close();
+        }
+        return success;
     }
 
     /**
