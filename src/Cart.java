@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.Map;
 
 class Cart {
 
@@ -7,7 +8,7 @@ class Cart {
 
     public Cart() {
         this.total = 0.0;
-        this.items = new HashMap();
+        this.items = new HashMap<Item, Double>();
     }
 
     /**
@@ -17,6 +18,7 @@ class Cart {
      */
     public void addItem(Item item, double quantity) {
         items.put(item, quantity);
+        updateTotal();
     }
 
     /**
@@ -25,6 +27,18 @@ class Cart {
      */
     public void removeItem(Item item) {
         items.remove(item);
+        updateTotal();
+    }
+
+    private void updateTotal() {
+        total = 0.0;
+        for(Map.Entry<Item, Double> item: items.entrySet()) {
+            total += item.getKey().getPrice() * item.getValue();
+        }
+    }
+
+    public double getTotal() {
+        return total;
     }
 
 }
