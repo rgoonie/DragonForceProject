@@ -9,7 +9,7 @@ class Supplier extends User {
     
     private HashMap<Item, Integer> catalog;
     
-    public Supplier(){
+    public Supplier() {
         super();
         catalog = new HashMap<>();
         importItems();
@@ -19,7 +19,7 @@ class Supplier extends User {
         super(id, password);
     }
     
-    public void processOrderDelivery(){}
+    public void processOrderDelivery() {}
 
     public void confirmShipment() {}
 
@@ -29,9 +29,9 @@ class Supplier extends User {
 
     public void checkAvalibility(Item item) {}
     
-    public void displayCatalog(){
+    public void displayCatalog() {
         System.out.println("\n-----------Catalog----------");
-        for(Item item: catalog.keySet()){
+        for(Item item: catalog.keySet()) {
             System.out.println( String.format("\nItem...........%s", item.getName()) );
             System.out.println( String.format("Description....%s", item.getDescription()) );
             System.out.println( String.format("Price..........%1.2f", item.getPrice()) );
@@ -39,7 +39,7 @@ class Supplier extends User {
         System.out.println("\n----------------------------");
     }
     
-    public Set<Item> getItems(){
+    public Set<Item> getItems() {
         return catalog.keySet();
     }
     
@@ -55,14 +55,14 @@ class Supplier extends User {
         System.out.println("[c]onfirm shipment");
         System.out.println("[l]og out");
 
-        while(selection == -1){
+        while(selection == -1) {
             System.out.print("Enter your choice (p, c, l):: ");
 
             String input = in.nextLine().replace(" ", "").toLowerCase();
             while(input.equals(""))
                 input += in.nextLine().replace(" ", "").toLowerCase();
 
-            switch(input.charAt(0)){
+            switch(input.charAt(0)) {
                 case 'p': selection = 6; break;
                 case 'c': selection = 7; break;
                 case 'l': selection = 1; break;
@@ -77,34 +77,32 @@ class Supplier extends User {
     
 //---------------------------Import/Export Functions----------------------------
     
-    private void importItems(){
-        try{
+    private void importItems() {
+        try {
             Scanner file = new Scanner( new File("items.dat") );
-            while(file.hasNextLine()){
+            while(file.hasNextLine()) {
                 Item item = new Item(file.nextLine(), file.nextLine(), Double.parseDouble(file.nextLine()));
                 int amount = Integer.parseInt(file.nextLine());
                 catalog.put(item, amount);
             }
             file.close();
-        }
-        catch(Exception e){
+        } catch(Exception e) {
             System.out.println("Unable to load catalog... Exiting...");
             System.exit(0);
         }
     }
     
-    private void exportItems(){
-        try{
+    private void exportItems() {
+        try {
             PrintWriter outFile = new PrintWriter("items.dat");
-            for(Item key : catalog.keySet()){
+            for(Item key : catalog.keySet()) {
                 outFile.println(key.getName());
                 outFile.println(key.getDescription());
                 outFile.println(key.getPrice());
                 outFile.println( catalog.get(key) );
             }
             outFile.close();
-        }
-        catch(Exception e){
+        } catch(Exception e) {
             System.out.println("Unable to export item data...");
         }
     }

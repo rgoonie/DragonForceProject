@@ -1,7 +1,7 @@
 
 import java.io.Serializable;
 
-class Item implements Serializable{
+class Item implements Serializable {
 
     private double price;
     private String name, description;

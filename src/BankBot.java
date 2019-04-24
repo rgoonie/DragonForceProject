@@ -18,28 +18,31 @@ public class BankBot {
 
     public BankBot() {
     
-        try{ importData(); }
-        catch(Exception e){
+        try { 
+            importData();
+        } catch(Exception e) {
             System.out.println("Unable to read bank.dat... Exiting");
             System.exit(0);
         }
         
     }
 
-    public void makeOrderRequest() { add code }
+    public void makeOrderRequest() { 
+        //TODO Implement 
+    }
     
     
     
     
 //-----------------------Import/Export Functions--------------------------------
     
-    private void importData() throws IOException{
+    private void importData() throws IOException {
         bankAccounts = new HashMap<>();
         
         Scanner file = new Scanner( new File("bank.dat") );        
         int amountData = file.nextInt();
         
-        for(int i = 0; i < amountData; i++){
+        for(int i = 0; i < amountData; i++) {
             file.nextLine();
             bankAccounts.put( file.next(), file.nextDouble() );
         }
@@ -48,19 +51,18 @@ public class BankBot {
     }
     
     public void exportData() {
-        try{
+        try {
             PrintWriter outFile = new PrintWriter("bank.dat");
             int dataAmount = bankAccounts.size();
 
             outFile.println(dataAmount);
 
-            for(String key : bankAccounts.keySet()){
+            for(String key : bankAccounts.keySet()) {
                 outFile.println( key + " " + bankAccounts.get(key) );
             }
 
             outFile.close();
-        }
-        catch(Exception e){
+        } catch(Exception e) {
             System.out.println("Unable to export bank data...");
         }
     }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-class ShoppingSystem{
+class ShoppingSystem {
 
     //used for any input necessary
     private Scanner kb = new Scanner(System.in);
@@ -25,7 +25,7 @@ class ShoppingSystem{
                 System.out.println("[l]og in");
                 System.out.println("[e]xit");
                 
-                while(selection == -1){
+                while(selection == -1) {
                     System.out.print("Enter your choice (c, l, e):: ");
                     
                     String input = in.nextLine().replace(" ", "").toLowerCase();
@@ -50,7 +50,7 @@ class ShoppingSystem{
     
     private BankBot theBank = new BankBot(); //Banking System
     
-    public ShoppingSystem(){
+    public ShoppingSystem() {
         signInInfo = importLogIn();
         customerAccounts = importCustomers();
         allOrders = importOrders();
@@ -59,9 +59,9 @@ class ShoppingSystem{
     }
     
     //Controller for Shopping System
-    public void run(){
+    public void run() {
         
-        while(true){
+        while(true) {
             int operation = currUser.menu(kb);
             switch(operation){
                 
@@ -69,22 +69,20 @@ class ShoppingSystem{
                     String[] info = new String[2];
                     currUser.signIn(kb, info);
                     
-                    if( signInInfo.containsKey( info[0] ) && signInInfo.get( info[0] ).equals(info[1]) ){
-                        if( customerAccounts.containsKey( info[0] ) ){
+                    if( signInInfo.containsKey( info[0] ) && signInInfo.get( info[0] ).equals(info[1]) ) {
+                        if( customerAccounts.containsKey( info[0] ) ) {
                             currUser = customerAccounts.get( info[0] );
                             
                             System.out.println("\n\n----------------------------");
                             System.out.println("Welcome, " + ((Customer)currUser).getName() );
                             System.out.println("----------------------------");
-                        }
-                        else{
+                        } else {
                             System.out.println("\n\n----------------------------");
                             System.out.println("Welcome, Supplier");
                             System.out.println("----------------------------");
                             currUser = supplier;
                         }
-                    }
-                    else{
+                    } else {
                         System.out.println("Sorry... Either your ID or Password is incorrect");
                     }
                     
@@ -138,7 +136,7 @@ class ShoppingSystem{
 //-----------------------Import/Export Functions--------------------------------
     
     private HashMap<String, String> importLogIn() {
-        try{
+        try {
             HashMap<String, String> res = new HashMap<>();
 
             Scanner file = new Scanner( new File( "log_in.dat" ) );
@@ -149,29 +147,27 @@ class ShoppingSystem{
             file.close();
 
             return res;
-        }
-        catch(Exception e){
+        } catch(Exception e) {
             System.out.println("Unable to load log in info...");
             return new HashMap<String, String>();
         }
     }
     
-    private void exportLogIn(){
+    private void exportLogIn() {
         //sign in data
-        try{
+        try {
             PrintWriter outFile = new PrintWriter("log_in.dat");        
             for(String key : signInInfo.keySet()){
                 outFile.println(key + "-" + signInInfo.get(key));
             }
             outFile.close();
-        }
-        catch(Exception e){
+        } catch(Exception e) {
             System.out.println("Unable to export log in info...");
         }
     }
     
     private HashMap<String, Customer> importCustomers() {
-        try{
+        try {
             HashMap<String, Customer> res = new HashMap<>();
 
             Scanner file = new Scanner( new File( "customers.dat" ) );
@@ -183,15 +179,14 @@ class ShoppingSystem{
             }
 
             return res;
-        }
-        catch(Exception e){
+        } catch(Exception e) {
             System.out.println("Unable to load customer data...");
             return new HashMap<String, Customer>();
         }
     }
     
     private void exportCustomers() {
-       try{         
+       try {         
             PrintWriter outFile = new PrintWriter("customers.dat");        
             FileOutputStream outStream = new FileOutputStream("customers.objects");
             ObjectOutputStream objectOutFile = new ObjectOutputStream(outStream);
@@ -203,14 +198,13 @@ class ShoppingSystem{
 
             outFile.close();
             objectOutFile.close();
-        }
-        catch(Exception e){
+        } catch(Exception e) {
             System.out.println("Unable to export customer data...");
         }
     }
     
-    private HashMap<String, ArrayList<Order>> importOrders(){
-        try{
+    private HashMap<String, ArrayList<Order>> importOrders() {
+        try {
             HashMap<String, ArrayList<Order>> res = new HashMap<>();
 
             Scanner file = new Scanner( new File( "orders.dat" ) );
@@ -222,28 +216,26 @@ class ShoppingSystem{
             }
 
             return res;
-        }
-        catch(Exception e){
+        } catch(Exception e) {
             System.out.println("Unable to load order data...");
             return new HashMap<String, ArrayList<Order>>();
         }
     }
     
-    private void exportOrders(){
-        try{         
+    private void exportOrders() {
+        try {         
             PrintWriter outFile = new PrintWriter("orders.dat");        
             FileOutputStream outStream = new FileOutputStream("orders.objects");
             ObjectOutputStream objectOutFile = new ObjectOutputStream(outStream);
 
-            for(String key : allOrders.keySet()){
+            for(String key : allOrders.keySet()) {
                 outFile.println(key);
                 objectOutFile.writeObject( allOrders.get(key) );
             }
 
             outFile.close();
             objectOutFile.close();
-        }
-        catch(Exception e){
+        } catch(Exception e) {
             System.out.println("Unable to export order data...");
         }
     }

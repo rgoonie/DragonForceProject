@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Set;
 
-class Customer extends User implements Serializable{
+class Customer extends User implements Serializable {
 
     private String phoneNumber, address, name, creditCardNumber;
     private Cart cart;
@@ -20,12 +20,12 @@ class Customer extends User implements Serializable{
         cart = new Cart();        
     }
     
-    public void selectItems(Scanner in, Set<Item> items){
+    public void selectItems(Scanner in, Set<Item> items) {
         ArrayList<Item> list = new ArrayList<>(items);
         int i =0;
-        while(true){
+        while(true) {
             System.out.println();
-            for(i = 0; i<list.size(); i++){
+            for(i = 0; i<list.size(); i++) {
                 System.out.println( String.format("[%d] %s", i+1, list.get(i).getName() ) );
             }
             System.out.println("[e]xit");
@@ -35,7 +35,7 @@ class Customer extends User implements Serializable{
             while(input.equals(""))
                 input += in.nextLine().replace(" ", "").toLowerCase();
 
-            while(input.charAt(0) != 'e' && (input.charAt(0)< 49 || input.charAt(0) > 48+i )){
+            while(input.charAt(0) != 'e' && (input.charAt(0)< 49 || input.charAt(0) > 48+i )) {
                 System.out.println("\n'" + input.charAt(0) + "' is not a valid input... please try again");
                 System.out.print("Which item would you like to add to cart:: ");
                 input = in.nextLine().replace(" ", "").toLowerCase();
@@ -43,26 +43,24 @@ class Customer extends User implements Serializable{
                     input += in.nextLine().replace(" ", "").toLowerCase();
             }
 
-            if(input.charAt(0) == 'e')
+            if(input.charAt(0) == 'e'){
                 return;
-
-            else{
+            } else {
                 int amount = -1;
-                while(amount == -1){
+                while(amount == -1) {
                     System.out.print("How many would you like:: ");
-                    try{
+                    try {
                         amount = Integer.parseInt(in.nextLine());
 
                         if(amount <0)
                             throw new Exception();
-                    }
-                    catch(Exception e){
+                    } catch(Exception e) {
                         amount = -1;
                         System.out.println("\nInvalid amount... please try again");
                     }
                 }
 
-                if(amount == 0){
+                if(amount == 0) {
                     System.out.println("Cancelled addition to cart...");
                     continue;
                 }                
@@ -83,12 +81,12 @@ class Customer extends User implements Serializable{
         return res;
     }
     
-    public void viewOrder(){
+    public void viewOrder() {
         HashMap<Item, Integer> items = cart.getItems();
         
         System.out.println("\n--------------------------------------------------");
         System.out.println( String.format("%-15s%15s%15s", "<Items>", "<Quantity>", "<Cost>") );
-        for(Item item : items.keySet()){
+        for(Item item : items.keySet()) {
             System.out.println( String.format("%-15s%15d%15.2f", item.getName(), items.get(item), item.getPrice()*items.get(item)) );
         }
         System.out.println( String.format("\n%-15s%15s%15.2f", "Total Cost.....", "...............", cart.getTotal()) );
@@ -119,7 +117,7 @@ class Customer extends User implements Serializable{
         System.out.println("[v]iew order");
         System.out.println("[l]og out");
 
-        while(selection == -1){
+        while(selection == -1) {
             System.out.print("Enter your choice (s, m, v, l):: ");
 
             String input = in.nextLine().replace(" ", "").toLowerCase();
