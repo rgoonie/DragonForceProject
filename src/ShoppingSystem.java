@@ -178,6 +178,8 @@ class ShoppingSystem {
                 res.put(file.nextLine(), (Customer)objectInFile.readObject());
             }
 
+            file.close();
+            objectInFile.close();
             return res;
         } catch(Exception e) {
             System.out.println("Unable to load customer data...");
@@ -215,6 +217,8 @@ class ShoppingSystem {
                 res.put(file.nextLine(), (ArrayList<Order>)objectInFile.readObject());
             }
 
+            file.close();
+            objectInFile.close();
             return res;
         } catch(Exception e) {
             System.out.println("Unable to load order data...");
