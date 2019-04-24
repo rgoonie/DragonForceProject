@@ -1,31 +1,113 @@
+import java.io.File;
+import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
 
 class Supplier extends User {
-
-    HashMap<Item, Integer> catalog;
-
+    
+    private HashMap<Item, Integer> catalog;
+    
+    public Supplier(){
+        super();
+        catalog = new HashMap<>();
+        importItems();
+    }
+    
     public Supplier(String id, String password) {
         super(id, password);
     }
+    
+    public void processOrderDelivery(){}
 
-    public boolean createAccount() {
-        return false;
+    public void confirmShipment() {}
+
+    public void retrieveOrder() {}
+
+    public void selectOrder(Order order) {}
+
+    public void checkAvalibility(Item item) {}
+    
+    public void displayCatalog(){
+        System.out.println("\n-----------Catalog----------");
+        for(Item item: catalog.keySet()){
+            System.out.println( String.format("\nItem...........%s", item.getName()) );
+            System.out.println( String.format("Description....%s", item.getDescription()) );
+            System.out.println( String.format("Price..........%1.2f", item.getPrice()) );
+        }
+        System.out.println("\n----------------------------");
+    }
+    
+    public Set<Item> getItems(){
+        return catalog.keySet();
+    }
+    
+
+//---------------------------Overriden Methods----------------------------------    
+    
+    @Override
+    public int menu(Scanner in) {
+        int selection = -1;
+        
+        System.out.println("\n\n------------Menu------------");
+        System.out.println("[p]rocess delivery order");
+        System.out.println("[c]onfirm shipment");
+        System.out.println("[l]og out");
+
+        while(selection == -1){
+            System.out.print("Enter your choice (p, c, l):: ");
+
+            String input = in.nextLine().replace(" ", "").toLowerCase();
+            while(input.equals(""))
+                input += in.nextLine().replace(" ", "").toLowerCase();
+
+            switch(input.charAt(0)){
+                case 'p': selection = 6; break;
+                case 'c': selection = 7; break;
+                case 'l': selection = 1; break;
+
+                default: System.out.println("'" + input.charAt(0) + "' is not a valid input - please try again" );
+            }
+
+        }
+
+        return selection;
+    }
+    
+//---------------------------Import/Export Functions----------------------------
+    
+    private void importItems(){
+        try{
+            Scanner file = new Scanner( new File("items.dat") );
+            while(file.hasNextLine()){
+                Item item = new Item(file.nextLine(), file.nextLine(), Double.parseDouble(file.nextLine()));
+                int amount = Integer.parseInt(file.nextLine());
+                catalog.put(item, amount);
+            }
+            file.close();
+        }
+        catch(Exception e){
+            System.out.println("Unable to load catalog... Exiting...");
+            System.exit(0);
+        }
+    }
+    
+    private void exportItems(){
+        try{
+            PrintWriter outFile = new PrintWriter("items.dat");
+            for(Item key : catalog.keySet()){
+                outFile.println(key.getName());
+                outFile.println(key.getDescription());
+                outFile.println(key.getPrice());
+                outFile.println( catalog.get(key) );
+            }
+            outFile.close();
+        }
+        catch(Exception e){
+            System.out.println("Unable to export item data...");
+        }
     }
 
-    public Order retrieveOrder() {
-        return new Order(new Cart(), "", new Bank(new HashMap<String,Double>()));
-    }
-
-    public Order selectOrder(Order order) {
-        return order;
-    }
-
-    public String confirmShipment() {
-        return "";
-    }
-
-    public boolean checkAvalibility(Item item) {
-        return item.getAmount() > 0;
-    }
 
 }
