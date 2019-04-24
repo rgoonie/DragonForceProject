@@ -27,8 +27,9 @@ class Supplier extends User {
 
     public void selectOrder(Order order) {}
 
-    public void checkAvalibility(Item item, int numberRequested) {
-
+    public boolean checkAvalibility(Item item, int numberRequested) {
+        return catalog.get(item) <= numberRequested;
+        // return item.getQuantity() <= numberRequested;
     }
     
     public void displayCatalog() {
