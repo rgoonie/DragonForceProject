@@ -27,7 +27,9 @@ class Supplier extends User {
 
     public void selectOrder(Order order) {}
 
-    public void checkAvalibility(Item item) {}
+    public void checkAvalibility(Item item, int numberRequested) {
+
+    }
     
     public void displayCatalog() {
         System.out.println("\n-----------Catalog----------");
@@ -81,7 +83,7 @@ class Supplier extends User {
         try {
             Scanner file = new Scanner( new File("items.dat") );
             while(file.hasNextLine()) {
-                Item item = new Item(file.nextLine(), file.nextLine(), Double.parseDouble(file.nextLine()));
+                Item item = new Item(file.nextLine(), file.nextLine(), Double.parseDouble(file.nextLine()), 0);
                 int amount = Integer.parseInt(file.nextLine());
                 catalog.put(item, amount);
             }
