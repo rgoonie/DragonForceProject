@@ -37,14 +37,14 @@ public class BankBot {
 //-----------------------Import/Export Functions--------------------------------
     
     private void importData() throws IOException {
-        bankAccounts = new HashMap<>();
+        this.bankAccounts = new HashMap<>();
         
         Scanner file = new Scanner( new File("bank.dat") );        
         int amountData = file.nextInt();
         
         for(int i = 0; i < amountData; i++) {
             file.nextLine();
-            bankAccounts.put( file.next(), file.nextDouble() );
+            this.bankAccounts.put( file.next(), file.nextDouble() );
         }
         
         file.close();
@@ -53,12 +53,12 @@ public class BankBot {
     public void exportData() {
         try {
             PrintWriter outFile = new PrintWriter("bank.dat");
-            int dataAmount = bankAccounts.size();
+            int dataAmount = this.bankAccounts.size();
 
             outFile.println(dataAmount);
 
-            for(String key : bankAccounts.keySet()) {
-                outFile.println( key + " " + bankAccounts.get(key) );
+            for(String key : this.bankAccounts.keySet()) {
+                outFile.println( key + " " + this.bankAccounts.get(key) );
             }
 
             outFile.close();

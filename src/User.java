@@ -9,8 +9,7 @@ abstract class User implements Serializable {
     protected String id, password;
 
     public User() {
-        this.id = "";
-        this.password = "";
+        this("", "");
     }
     
     public User(String id, String password) {

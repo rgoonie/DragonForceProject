@@ -18,7 +18,7 @@ class Cart implements Serializable{
      * @param quantity The amount of the item to be added
      */
     public void addItem(Item item, int quantity) {
-        items.put(item, quantity);
+        this.items.put(item, quantity);
         updateTotal();
     }
 
@@ -27,19 +27,19 @@ class Cart implements Serializable{
      * @param item The time to be removed from the cart
      */
     public void removeItem(Item item) {
-        items.remove(item);
+        this.items.remove(item);
         updateTotal();
     }
 
     private void updateTotal() {
-        total = 0.0;
-        for(Map.Entry<Item, Integer> item: items.entrySet()) {
-            total += item.getKey().getPrice() * item.getValue();
+        this.total = 0.0;
+        for(Map.Entry<Item, Integer> item: this.items.entrySet()) {
+            this.total += item.getKey().getPrice() * item.getValue();
         }
     }
 
     public double getTotal() {
-        return total;
+        return this.total;
     }
 
     public HashMap<Item, Integer> getItems() {
