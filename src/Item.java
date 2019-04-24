@@ -1,22 +1,19 @@
-class Item {
+
+import java.io.Serializable;
+
+class Item implements Serializable{
 
     private double price;
     private String name, description;
-    private int amount;
 
-    public Item(Double price, String name, String description, int amount) {
+    public Item(String name, String description, double price) {
         this.price = price;
         this.name = name;
         this.description = description;
-        this.amount = amount;
     }
 
     public double getPrice() {
         return this.price;
-    }
-
-    public int getAmount() {
-        return this.amount;
     }
 
     public String getName() {
@@ -26,9 +23,6 @@ class Item {
     public String getDescription() {
         return this.description;
     }
-
-    public void updateAmount(int newAmount) {
-        this.amount = newAmount;
-    }
+    
 
 }
