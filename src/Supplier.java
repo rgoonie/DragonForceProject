@@ -11,7 +11,7 @@ class Supplier extends User {
     
     public Supplier() {
         super();
-        catalog = new HashMap<>();
+        this.catalog = new HashMap<>();
         importItems();
     }
     
@@ -28,13 +28,13 @@ class Supplier extends User {
     public void selectOrder(Order order) {}
 
     public boolean checkAvalibility(Item item, int numberRequested) {
-        return catalog.get(item) <= numberRequested;
+        return this.catalog.get(item) <= numberRequested;
         // return item.getQuantity() <= numberRequested;
     }
     
     public void displayCatalog() {
         System.out.println("\n-----------Catalog----------");
-        for(Item item: catalog.keySet()) {
+        for(Item item: this.catalog.keySet()) {
             System.out.println( String.format("\nItem...........%s", item.getName()) );
             System.out.println( String.format("Description....%s", item.getDescription()) );
             System.out.println( String.format("Price..........%1.2f", item.getPrice()) );
@@ -43,7 +43,7 @@ class Supplier extends User {
     }
     
     public Set<Item> getItems() {
-        return catalog.keySet();
+        return this.catalog.keySet();
     }
     
 
@@ -86,7 +86,7 @@ class Supplier extends User {
             while(file.hasNextLine()) {
                 Item item = new Item(file.nextLine(), file.nextLine(), Double.parseDouble(file.nextLine()), 0);
                 int amount = Integer.parseInt(file.nextLine());
-                catalog.put(item, amount);
+                this.catalog.put(item, amount);
             }
             file.close();
         } catch(Exception e) {
@@ -98,11 +98,11 @@ class Supplier extends User {
     private void exportItems() {
         try {
             PrintWriter outFile = new PrintWriter("items.dat");
-            for(Item key : catalog.keySet()) {
+            for(Item key : this.catalog.keySet()) {
                 outFile.println(key.getName());
                 outFile.println(key.getDescription());
                 outFile.println(key.getPrice());
-                outFile.println( catalog.get(key) );
+                outFile.println( this.catalog.get(key) );
             }
             outFile.close();
         } catch(Exception e) {
