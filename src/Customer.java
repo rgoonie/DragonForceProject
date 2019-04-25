@@ -207,23 +207,25 @@ class Customer extends User implements Serializable {
         System.out.println("\n\n------------Menu------------");
         System.out.println("[a]dd items to cart");
         System.out.println("[r]emove items from cart");
+        System.out.println("[s]how cart");
         System.out.println("[m]ake order request");
         System.out.println("[v]iew order");
         System.out.println("[l]og out");
 
         while(selection == -1) {
-            System.out.print("Enter your choice (a, r, m, v, l):: ");
+            System.out.print("Enter your choice (a, r, s, m, v, l):: ");
 
             String input = in.nextLine().replace(" ", "").toLowerCase();
             while(input.equals(""))
                 input += in.nextLine().replace(" ", "").toLowerCase();
 
             switch(input.charAt(0)){
-                case 'a': selection = 3; break;
-                case 'r': selection = 9; break;
-                case 'm': selection = 4; break;
-                case 'v': selection = 5; break;
-                case 'l': selection = 1; break;
+                case 'a': selection =  3; break;
+                case 'r': selection =  9; break;
+                case 's': selection = 10; break;
+                case 'm': selection =  4; break;
+                case 'v': selection =  5; break;
+                case 'l': selection =  1; break;
 
                 default: System.out.println("'" + input.charAt(0) + "' is not a valid input - please try again\n" );
             }
