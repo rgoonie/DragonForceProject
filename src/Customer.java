@@ -104,7 +104,9 @@ class Customer extends User implements Serializable, CustomerConstants {
     
     public String getName(){ return this.name; }
     public String getPhoneNumber(){ return this.phoneNumber; }
-    public String getAddress(){ return this.address; };
+    public String getAddress(){ return this.address; }
+    public String getCreditCard(){ return this.creditCardNumber; }
+    public double getCartCost(){ return this.cart.getTotal(); }
 
 //---------------------------Overriden Methods----------------------------------
 

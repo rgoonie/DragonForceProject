@@ -10,7 +10,7 @@ class Cart implements Serializable{
 
     public Cart() {
         this.total = 0.0;
-        this.items = new HashMap<>();
+            this.items = new HashMap<>();
     }
 
     /**
@@ -19,7 +19,10 @@ class Cart implements Serializable{
      * @param quantity The amount of the item to be added
      */
     public void addItem(Item item, int quantity) {
-        this.items.put(item, quantity);
+        if(this.items.get(item) != null)
+            this.items.put(item, this.items.get(item) + quantity);
+        else
+            this.items.put(item, quantity);
         updateTotal();
     }
 

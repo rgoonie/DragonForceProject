@@ -1,4 +1,4 @@
-/**
+    /**
  * BankBot is an automated system. BankBot holds information pertaining to the
  *      bank (i.e. Card Numbers and Amount of money for account). The processes
  *      for the bank are automated.
@@ -42,9 +42,8 @@ public class BankBot {
         Scanner file = new Scanner( new File("bank.dat") );        
         int amountData = file.nextInt();
         
-        for(int i = 0; i < amountData; i++) {
-            file.nextLine();
-            this.bankAccounts.put( file.next(), file.nextDouble() );
+        while(file.hasNextLine()) {
+            bankAccounts.put( file.next(), Double.parseDouble(file.nextLine()) );
         }
         
         file.close();
@@ -53,9 +52,6 @@ public class BankBot {
     public void exportData() {
         try {
             PrintWriter outFile = new PrintWriter("bank.dat");
-            int dataAmount = this.bankAccounts.size();
-
-            outFile.println(dataAmount);
 
             for(String key : this.bankAccounts.keySet()) {
                 outFile.println( key + " " + this.bankAccounts.get(key) );
