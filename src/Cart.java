@@ -23,6 +23,7 @@ class Cart implements Serializable{
             items.put(item, items.get(item) + quantity);
         else
             items.put(item, quantity);
+            
         updateTotal();
     }
 
