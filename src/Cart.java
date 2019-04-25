@@ -4,12 +4,13 @@ import java.util.Map;
 
 class Cart implements Serializable{
 
+    private static final long serialVersionUID = 1L;
     private double total;
     private HashMap<Item, Integer> items;
 
     public Cart() {
         this.total = 0.0;
-        this.items = new HashMap<>();
+            this.items = new HashMap<>();
     }
 
     /**
@@ -25,24 +26,23 @@ class Cart implements Serializable{
             
         updateTotal();
     }
-    
+  
     public void removeItem(Item item, int quantity){
         items.put(item, items.get(item) - quantity);
         if(items.get(item) <= 0)
             items.remove(item);
-        
         updateTotal();
     }
     
     private void updateTotal() {
-        total = 0.0;
-        for(Map.Entry<Item, Integer> item: items.entrySet()) {
-            total += item.getKey().getPrice() * item.getValue();
+        this.total = 0.0;
+        for(Map.Entry<Item, Integer> item: this.items.entrySet()) {
+            this.total += item.getKey().getPrice() * item.getValue();
         }
     }
 
     public double getTotal() {
-        return total;
+        return this.total;
     }
 
     public HashMap<Item, Integer> getItems() {

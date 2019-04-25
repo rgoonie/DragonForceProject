@@ -5,8 +5,9 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Set;
 
-class Customer extends User implements Serializable {
+class Customer extends User implements Serializable, CustomerConstants {
 
+    private static final long serialVersionUID = 1L;
     private String phoneNumber, address, name, creditCardNumber;
     private Cart cart;
 
@@ -17,7 +18,7 @@ class Customer extends User implements Serializable {
         this.name = name;
         this.creditCardNumber = creditCardNumber;
         
-        cart = new Cart();        
+        this.cart = new Cart();        
     }
     
     public void selectItems(Scanner in, Set<Item> items) {
@@ -30,17 +31,17 @@ class Customer extends User implements Serializable {
             }
             System.out.println("[e]xit");
 
-            System.out.print("Which item would you like to add to cart:: ");
-            String input = in.nextLine().replace(" ", "").toLowerCase();
+            System.out.print(ADD_ITEM_PROMPT);
+            String input = cleanInput(in.nextLine());
             while(input.equals(""))
-                input += in.nextLine().replace(" ", "").toLowerCase();
+                input += cleanInput(in.nextLine());
 
             while(input.charAt(0) != 'e' && (input.charAt(0)< 49 || input.charAt(0) > 48+i )) {
-                System.out.println("\n'" + input.charAt(0) + "' is not a valid input... please try again\n");
-                System.out.print("Which item would you like to add to cart:: ");
-                input = in.nextLine().replace(" ", "").toLowerCase();
+                System.out.println("\n'" + input.charAt(0) + "' is not a valid input... please try again");
+                System.out.print(ADD_ITEM_PROMPT);
+                input = cleanInput(in.nextLine());
                 while(input.equals(""))
-                    input += in.nextLine().replace(" ", "").toLowerCase();
+                    input += cleanInput(in.nextLine());
             }
 
             if(input.charAt(0) == 'e'){
@@ -64,7 +65,7 @@ class Customer extends User implements Serializable {
                     System.out.println("Cancelled addition to cart...");
                     continue;
                 }                
-                cart.addItem(list.get(input.charAt(0) - 49), amount);
+                this.cart.addItem(list.get(input.charAt(0) - 49), amount);
                 System.out.println(amount + " " + list.get(input.charAt(0) - 49).getName() + "(s) was added to your cart.");
             }
         }
@@ -149,15 +150,15 @@ class Customer extends User implements Serializable {
     }
     
     public void viewOrder() {
-        HashMap<Item, Integer> items = cart.getItems();
+        HashMap<Item, Integer> items = this.cart.getItems();
         
-        System.out.println("\n--------------------------------------------------");
+        System.out.println(NEW_LINE);
         System.out.println( String.format("%-15s%15s%15s", "<Items>", "<Quantity>", "<Cost>") );
         for(Item item : items.keySet()) {
             System.out.println( String.format("%-15s%15d%15.2f", item.getName(), items.get(item), item.getPrice()*items.get(item)) );
         }
-        System.out.println( String.format("\n%-15s%15s%15.2f", "Total Cost.....", "...............", cart.getTotal()) );
-        System.out.println("--------------------------------------------------");
+        System.out.println( String.format("\n%-15s%15s%15.2f", "Total Cost.....", "...............", this.cart.getTotal()) );
+        System.out.println(END_LINE);
     }
 
     /**
@@ -215,9 +216,9 @@ class Customer extends User implements Serializable {
         while(selection == -1) {
             System.out.print("Enter your choice (a, r, s, m, v, l):: ");
 
-            String input = in.nextLine().replace(" ", "").toLowerCase();
+            String input = cleanInput(in.nextLine());
             while(input.equals(""))
-                input += in.nextLine().replace(" ", "").toLowerCase();
+                input += cleanInput(in.nextLine());
 
             switch(input.charAt(0)){
                 case 'a': selection =  3; break;

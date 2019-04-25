@@ -1,4 +1,4 @@
-/**
+    /**
  * BankBot is an automated system. BankBot holds information pertaining to the
  *      bank (i.e. Card Numbers and Amount of money for account). The processes
  *      for the bank are automated.
@@ -44,7 +44,7 @@ public class BankBot {
 //-----------------------Import/Export Functions--------------------------------
     
     private void importData() throws IOException {
-        bankAccounts = new HashMap<>();
+        this.bankAccounts = new HashMap<>();
         
         Scanner file = new Scanner( new File("bank.dat") );
         

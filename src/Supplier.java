@@ -1,37 +1,44 @@
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.ArrayList;
+import java.util.Date;
 
-class Supplier extends User {
+class Supplier extends User implements SupplierConstants {
     
+    private static final long serialVersionUID = 1L;
     private HashMap<Item, Integer> catalog;
+    private ArrayList<Order> pendingOrders;
     
-    public Supplier() {
+    public Supplier(ArrayList<Order> pendingOrders) {
         super();
-        catalog = new HashMap<>();
+        this.catalog = new HashMap<>();
+        this.pendingOrders = pendingOrders;
         importItems();
     }
     
-    public Supplier(String id, String password) {
-        super(id, password);
+    public void processOrderDelivery(Order o, String status) {
+        o.setStatus(status);
     }
-    
-    public void processOrderDelivery() {}
 
-    public void confirmShipment() {}
+    public boolean confirmShipment(Order o) {
+        return o.getStatus().equals("SHIPPED");
+    }
 
-    public void retrieveOrder() {}
+    public Order retireveOrder(Order o) {
+        return pendingOrders.get(pendingOrders.indexOf(o));
+    }
 
-    public void selectOrder(Order order) {}
-
-    public void checkAvalibility(Item item) {}
+    public boolean checkAvalibility(Item item, int numberRequested) {
+        return this.catalog.get(item) <= numberRequested;
+        // return item.getQuantity() <= numberRequested;
+    }
     
     public void displayCatalog() {
         System.out.println("\n-----------Catalog----------");
-        for(Item item: catalog.keySet()) {
+        for(Item item: this.catalog.keySet()) {
             System.out.println( String.format("\nItem...........%s", item.getName()) );
             System.out.println( String.format("Description....%s", item.getDescription()) );
             System.out.println( String.format("Price..........%1.2f", item.getPrice()) );
@@ -40,7 +47,7 @@ class Supplier extends User {
     }
     
     public Set<Item> getItems() {
-        return catalog.keySet();
+        return this.catalog.keySet();
     }
     
 
@@ -50,22 +57,19 @@ class Supplier extends User {
     public int menu(Scanner in) {
         int selection = -1;
         
-        System.out.println("\n\n------------Menu------------");
-        System.out.println("[p]rocess delivery order");
-        System.out.println("[c]onfirm shipment");
-        System.out.println("[l]og out");
+        System.out.println(MAIN_MENU);
 
         while(selection == -1) {
             System.out.print("Enter your choice (p, c, l):: ");
 
-            String input = in.nextLine().replace(" ", "").toLowerCase();
+            String input = cleanInput(in.nextLine());
             while(input.equals(""))
-                input += in.nextLine().replace(" ", "").toLowerCase();
+                input += cleanInput(in.nextLine());
 
             switch(input.charAt(0)) {
-                case 'p': selection = 6; break;
-                case 'c': selection = 7; break;
-                case 'l': selection = 1; break;
+                case PROCESS: selection = 6; break;
+                case CONFIRM: selection = 7; break;
+                case LOGOUT: selection = 1; break;
 
                 default: System.out.println("'" + input.charAt(0) + "' is not a valid input - please try again\n" );
             }
@@ -79,31 +83,31 @@ class Supplier extends User {
     
     private void importItems() {
         try {
-            Scanner file = new Scanner( new File("items.dat") );
+            Scanner file = new Scanner( new File(ITEMS_FILE) );
             while(file.hasNextLine()) {
-                Item item = new Item(file.nextLine(), file.nextLine(), Double.parseDouble(file.nextLine()));
+                Item item = new Item(file.nextLine(), file.nextLine(), Double.parseDouble(file.nextLine()), 0);
                 int amount = Integer.parseInt(file.nextLine());
-                catalog.put(item, amount);
+                this.catalog.put(item, amount);
             }
             file.close();
         } catch(Exception e) {
-            System.out.println("Unable to load catalog... Exiting...");
+            System.out.println(ERROR_IN_MSG);
             System.exit(0);
         }
     }
     
     private void exportItems() {
         try {
-            PrintWriter outFile = new PrintWriter("items.dat");
-            for(Item key : catalog.keySet()) {
+            PrintWriter outFile = new PrintWriter(ITEMS_FILE);
+            for(Item key : this.catalog.keySet()) {
                 outFile.println(key.getName());
                 outFile.println(key.getDescription());
                 outFile.println(key.getPrice());
-                outFile.println( catalog.get(key) );
+                outFile.println( this.catalog.get(key) );
             }
             outFile.close();
         } catch(Exception e) {
-            System.out.println("Unable to export item data...");
+            System.out.println(ERROR_OUT_MSG);
         }
     }
 

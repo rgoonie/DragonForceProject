@@ -6,11 +6,11 @@ import java.util.Scanner;
 
 abstract class User implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     protected String id, password;
 
     public User() {
-        this.id = "";
-        this.password = "";
+        this("", "");
     }
     
     public User(String id, String password) {
@@ -26,9 +26,9 @@ abstract class User implements Serializable {
         char choice = 'X';
         while(choice != 'c' && choice != 's') {
             System.out.print("\nAre you a [c]ustomer or [s]upplier:: ");
-            String input = in.nextLine().replace(" ", "").toLowerCase();
+            String input = cleanInput(in.nextLine());
             while(input.equals(""))
-                input += in.nextLine().replace(" ", "").toLowerCase();
+                input += cleanInput(in.nextLine());
             choice = input.charAt(0);            
         }
         
@@ -109,5 +109,9 @@ abstract class User implements Serializable {
      * @return command chosen by user
      */
     abstract int menu(Scanner in);
+
+    protected String cleanInput(String inpt) {
+        return inpt.replace(" ", "").toLowerCase();
+    }
     
 }

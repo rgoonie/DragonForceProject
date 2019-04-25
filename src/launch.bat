@@ -1,0 +1,6 @@
+@ECHO OFF
+ECHO Compiling...
+javac Runner.java
+ECHO Compiled...
+java Runner
+PAUSE
