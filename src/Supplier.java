@@ -27,13 +27,8 @@ class Supplier extends User implements SupplierConstants {
         return o.getStatus().equals("SHIPPED");
     }
 
-    public Order retireveOrder(Date date) {
-        for(Order o : pendingOrders){
-            if(o.getDate() == date) {
-                return o;
-            }
-        }
-        return new Order(new Cart(), new Date(), "", "", "");
+    public Order retireveOrder(Order o) {
+        return pendingOrders.get(pendingOrders.indexOf(o));
     }
 
     public boolean checkAvalibility(Item item, int numberRequested) {
