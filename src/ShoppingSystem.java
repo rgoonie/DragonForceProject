@@ -103,7 +103,36 @@ class ShoppingSystem {
                     ((Customer)currUser).selectItems(kb, supplier.getItems());
                     break; //select items
                     
-                case 4: break; //make order request
+                case 4: 
+                    String creditCard = ((Customer)currUser).getCreditCard();
+                    double cartCost = ((Customer)currUser).getCartCost();
+                    
+                    if(cartCost == 0){
+                        System.out.println("You have no items in your cart...\n");
+                        break;
+                    }
+                    
+                    String auth = theBank.makeOrderRequest(creditCard, cartCost);
+                    while(auth == null){
+                        System.out.println("\nThe bank has declined your transaction...");
+                        String newCard = ((Customer)currUser).changeCard(kb);
+                        if(newCard.equals(creditCard))
+                            break;
+                        creditCard = newCard;
+                        auth = theBank.makeOrderRequest(creditCard, cartCost);
+                    }
+                    
+                    if(auth == null){
+                        System.out.println("Your order request has been cancelled...");
+                        break;
+                    }                        
+                    
+                    Order newOrder = ((Customer)currUser).makeOrderRequest(auth);
+                    allOrders.get( currUser.id ).add(newOrder);
+                    System.out.println("\nYour request has been approved...");
+                    newOrder.viewOrder();
+                    
+                    break; //make order request
                 
                 case 5: 
                     ((Customer)currUser).viewOrder();

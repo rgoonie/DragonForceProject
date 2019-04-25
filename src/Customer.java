@@ -73,9 +73,8 @@ class Customer extends User implements Serializable {
     /**
      * Places the order and empties the cart
      */
-    public Order makeOrderRequest() {
-        Order res =  new Order( this.cart, new Date(), this.name, this.phoneNumber, this.address );
-        //orders.add(res);
+    public Order makeOrderRequest(String auth) {
+        Order res =  new Order( this.cart, new Date(), this.name, this.phoneNumber, this.address, auth );
         this.cart = new Cart();
         
         return res;
@@ -98,12 +97,38 @@ class Customer extends User implements Serializable {
      */
     public void viewItems() {
     }
+    
+    public String changeCard(Scanner in){
+        String credit = "";
+        while(credit.equals("")) {
+            System.out.print("Enter a credit card number or 'e' to exit:: ");
+            
+            credit = in.nextLine().replace('-', ' ').replace(" ", "");
+            while( credit.equals("") )
+                credit = in.nextLine().replace('-', ' ').replace(" ", "").toLowerCase();
+
+            try {
+                if(credit.charAt(0) == 'e'){
+                    return creditCardNumber;
+                }
+                Long.parseLong(credit);
+            } catch(Exception e) {
+                System.out.println("The credit card number is not vaild... Please Try Again\n");
+                credit = "";
+            }
+        }
+        
+        creditCardNumber = credit;
+        return credit;
+    }
 
 //---------------------------Get Methods----------------------------------------    
     
     public String getName(){ return name; }
     public String getPhoneNumber(){ return phoneNumber; }
     public String getAddress(){ return address; };
+    public String getCreditCard(){ return creditCardNumber; }
+    public double getCartCost(){ return cart.getTotal(); }
 
 //---------------------------Overriden Methods----------------------------------
 
