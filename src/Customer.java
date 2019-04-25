@@ -193,11 +193,11 @@ class Customer extends User implements Serializable, CustomerConstants {
 
 //---------------------------Get Methods----------------------------------------    
     
-    public String getName(){ return name; }
-    public String getPhoneNumber(){ return phoneNumber; }
-    public String getAddress(){ return address; };
-    public String getCreditCard(){ return creditCardNumber; }
-    public double getCartCost(){ return cart.getTotal(); }
+    public String getName(){ return this.name; }
+    public String getPhoneNumber(){ return this.phoneNumber; }
+    public String getAddress(){ return this.address; }
+    public String getCreditCard(){ return this.creditCardNumber; }
+    public double getCartCost(){ return this.cart.getTotal(); }
 
 //---------------------------Overriden Methods----------------------------------
 
@@ -205,13 +205,7 @@ class Customer extends User implements Serializable, CustomerConstants {
     int menu(Scanner in) {
         int selection = -1;
         
-        System.out.println("\n\n------------Menu------------");
-        System.out.println("[a]dd items to cart");
-        System.out.println("[r]emove items from cart");
-        System.out.println("[s]how cart");
-        System.out.println("[m]ake order request");
-        System.out.println("[v]iew order");
-        System.out.println("[l]og out");
+        System.out.println(MENU);
 
         while(selection == -1) {
             System.out.print("Enter your choice (a, r, s, m, v, l):: ");
@@ -221,12 +215,12 @@ class Customer extends User implements Serializable, CustomerConstants {
                 input += cleanInput(in.nextLine());
 
             switch(input.charAt(0)){
-                case 'a': selection =  3; break;
-                case 'r': selection =  9; break;
-                case 's': selection = 10; break;
-                case 'm': selection =  4; break;
-                case 'v': selection =  5; break;
-                case 'l': selection =  1; break;
+                case ADD: selection =  3; break;
+                case REMOVE: selection =  9; break;
+                case SELECT: selection = 10; break;
+                case MAKE: selection =  4; break;
+                case VIEW: selection =  5; break;
+                case LOGOUT: selection =  1; break;
 
                 default: System.out.println("'" + input.charAt(0) + "' is not a valid input - please try again\n" );
             }

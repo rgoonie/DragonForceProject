@@ -1,7 +1,9 @@
 interface CustomerConstants {
 
     //Menu
-    public static final String MENU = "\n\n------------Menu------------\n[s]elect items\n[m]ake order request\n[v]iew order\n[l]og out";
+    public static final String MENU = "\n\n------------Menu------------\n[a]dd items to cart\n[r]emove items from cart\n[s]how cart\n[m]ake order request\n[v]iew order\n[l]og out";
+    public static final char ADD = 'a';
+    public static final char REMOVE = 'r';
     public static final char SELECT = 's';
     public static final char MAKE = 'm';
     public static final char VIEW = 'v';
