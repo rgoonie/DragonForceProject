@@ -79,10 +79,6 @@ class Supplier extends User implements SupplierConstants {
 
         return selection;
     }
-
-    public String cleanInput(String inpt) {
-        return inpt.replace(" ", "").toLowerCase();
-    }
     
 //---------------------------Import/Export Functions----------------------------
     
