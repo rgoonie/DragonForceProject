@@ -71,7 +71,7 @@ class Supplier extends User implements SupplierConstants {
                 case CONFIRM: selection = 7; break;
                 case LOGOUT: selection = 1; break;
 
-                default: System.out.println("'" + input.charAt(0) + "' is not a valid input - please try again" );
+                default: System.out.println("'" + input.charAt(0) + "' is not a valid input - please try again\n" );
             }
 
         }
