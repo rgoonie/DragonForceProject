@@ -36,6 +36,18 @@ class Order implements Serializable {
     public double getTotal() {
         return this.cart.getTotal();
     }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getAddress() {
+        return this.address;
+    }
+
+    public String getPhone() {
+        return this.phone;
+    }
     
     public void viewOrder() {
         HashMap<Item, Integer> items = this.cart.getItems();
