@@ -10,11 +10,7 @@ class Supplier extends User {
     private HashMap<Item, Integer> catalog;
     
     public Supplier() {
-        this("", "");
-    }
-    
-    public Supplier(String id, String password) {
-        super(id, password);
+        super();
         this.catalog = new HashMap<>();
         importItems();
     }
