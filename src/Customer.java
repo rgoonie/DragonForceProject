@@ -88,16 +88,16 @@ class Customer extends User implements Serializable, CustomerConstants {
             System.out.println("[e]xit");
 
             System.out.print("Which item would you like to remove to cart:: ");
-            String input = in.nextLine().replace(" ", "").toLowerCase();
+            String input = cleanInput(in.nextLine());
             while(input.equals(""))
-                input += in.nextLine().replace(" ", "").toLowerCase();
+                input += cleanInput(in.nextLine());
 
             while(input.charAt(0) != 'e' && (input.charAt(0)< 49 || input.charAt(0) > 48+i )) {
                 System.out.println("\n'" + input.charAt(0) + "' is not a valid input... please try again\n");
                 System.out.print("Which item would you like to remove to cart:: ");
-                input = in.nextLine().replace(" ", "").toLowerCase();
+                input = cleanInput(in.nextLine());
                 while(input.equals(""))
-                    input += in.nextLine().replace(" ", "").toLowerCase();
+                    input += cleanInput(in.nextLine());
             }
 
             if(input.charAt(0) == 'e'){
@@ -172,9 +172,9 @@ class Customer extends User implements Serializable, CustomerConstants {
         while(credit.equals("")) {
             System.out.print("Enter a credit card number or 'e' to exit:: ");
             
-            credit = in.nextLine().replace('-', ' ').replace(" ", "");
+            credit = cleanInput(in.nextLine().replace('-', ' '));
             while( credit.equals("") )
-                credit = in.nextLine().replace('-', ' ').replace(" ", "").toLowerCase();
+                credit = cleanInput(in.nextLine().replace('-', ' '));
 
             try {
                 if(credit.charAt(0) == 'e'){
