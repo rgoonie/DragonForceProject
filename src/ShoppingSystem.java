@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-class ShoppingSystem {
+class ShoppingSystem implements ShoppingSystemConstants {
 
     //used for any input necessary
     private Scanner kb = new Scanner(System.in);
@@ -25,10 +25,7 @@ class ShoppingSystem {
             @Override
             int menu(Scanner in) {
                 int selection = -1;
-                System.out.println("\n------------Menu------------");
-                System.out.println("[c]reate account");
-                System.out.println("[l]og in");
-                System.out.println("[e]xit");
+                System.out.println(MENU);
                 
                 while(selection == -1) {
                     System.out.print("Enter your choice (c, l, e):: ");
@@ -38,9 +35,9 @@ class ShoppingSystem {
                         input += in.nextLine().replace(" ", "").toLowerCase();
                     
                     switch(input.charAt(0)){
-                        case 'c': selection = 2; break;
-                        case 'l': selection = 0; break;
-                        case 'e': selection = 8; break;
+                        case CREATE: selection = 2; break;
+                        case LOGIN: selection = 0; break;
+                        case EXIT: selection = 8; break;
                         
                         default: System.out.println("'" + input.charAt(0) + "' is not a valid input - please try again" );
                     }
@@ -76,13 +73,13 @@ class ShoppingSystem {
                         if( customerAccounts.containsKey( infoZero ) ) {
                             this.currUser = customerAccounts.get( infoZero );
                             
-                            System.out.println("\n\n----------------------------");
+                            System.out.println(NEW_LINE);
                             System.out.println("Welcome, " + ((Customer)this.currUser).getName() ); //TODO Not sure if this.currUser will be correctly cast
-                            System.out.println("----------------------------");
+                            System.out.println(END_LINE);
                         } else {
-                            System.out.println("\n\n----------------------------");
+                            System.out.println(NEW_LINE);
                             System.out.println("Welcome, Supplier");
-                            System.out.println("----------------------------");
+                            System.out.println(END_LINE);
                             this.currUser = this.supplier;
                         }
                     } else {
@@ -142,7 +139,7 @@ class ShoppingSystem {
         try {
             HashMap<String, String> res = new HashMap<>();
 
-            Scanner file = new Scanner( new File( "log_in.dat" ) );
+            Scanner file = new Scanner( new File( LOGIN_FILE ) );
             while( file.hasNextLine() ){
                 String[] info = file.nextLine().split("-");
                 res.put(info[0], info[1]);
@@ -159,7 +156,7 @@ class ShoppingSystem {
     private void exportLogIn() {
         //sign in data
         try {
-            PrintWriter outFile = new PrintWriter("log_in.dat");        
+            PrintWriter outFile = new PrintWriter(LOGIN_FILE);        
             for(String key : this.signInInfo.keySet()){
                 outFile.println(key + "-" + this.signInInfo.get(key));
             }
@@ -173,8 +170,8 @@ class ShoppingSystem {
         try {
             HashMap<String, Customer> res = new HashMap<>();
 
-            Scanner file = new Scanner( new File( "customers.dat" ) );
-            FileInputStream inStream = new FileInputStream("customers.objects");
+            Scanner file = new Scanner( new File( CUSTOMERS_DATA ) );
+            FileInputStream inStream = new FileInputStream(CUSTOMERS_OBJECT);
             ObjectInputStream objectInFile = new ObjectInputStream(inStream);
 
             while(file.hasNextLine()){
@@ -192,8 +189,8 @@ class ShoppingSystem {
     
     private void exportCustomers() {
        try {         
-            PrintWriter outFile = new PrintWriter("customers.dat");        
-            FileOutputStream outStream = new FileOutputStream("customers.objects");
+            PrintWriter outFile = new PrintWriter(CUSTOMERS_DATA);        
+            FileOutputStream outStream = new FileOutputStream(CUSTOMERS_OBJECT);
             ObjectOutputStream objectOutFile = new ObjectOutputStream(outStream);
 
             for(String key : customerAccounts.keySet()){
@@ -212,8 +209,8 @@ class ShoppingSystem {
         try {
             HashMap<String, ArrayList<Order>> res = new HashMap<>();
 
-            Scanner file = new Scanner( new File( "orders.dat" ) );
-            FileInputStream inStream = new FileInputStream("orders.objects");
+            Scanner file = new Scanner( new File( ORDERS_DATA ) );
+            FileInputStream inStream = new FileInputStream(ORDERS_OBJECT);
             ObjectInputStream objectInFile = new ObjectInputStream(inStream);
 
             while(file.hasNextLine()){
@@ -231,8 +228,8 @@ class ShoppingSystem {
     
     private void exportOrders() {
         try {         
-            PrintWriter outFile = new PrintWriter("orders.dat");        
-            FileOutputStream outStream = new FileOutputStream("orders.objects");
+            PrintWriter outFile = new PrintWriter(ORDERS_DATA);        
+            FileOutputStream outStream = new FileOutputStream(ORDERS_OBJECT);
             ObjectOutputStream objectOutFile = new ObjectOutputStream(outStream);
 
             for(String key : this.allOrders.keySet()) {
