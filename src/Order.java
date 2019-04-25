@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 class Order implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private String status, name, address, phone, authNumber;
     private Date date;
     private Cart cart;
