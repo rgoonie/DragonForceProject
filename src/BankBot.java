@@ -27,8 +27,15 @@ public class BankBot {
         
     }
 
-    public void makeOrderRequest() { 
-        //TODO Implement 
+    public String makeOrderRequest(String card, double cost) { 
+        
+        Double account = bankAccounts.get(card);
+        if( account != null && account - cost >= 0 ){
+            bankAccounts.put(card, account - cost);
+            return String.format("%d", (int)(Math.random() * 10000));
+        }
+        
+        return null;
     }
     
     
@@ -39,12 +46,10 @@ public class BankBot {
     private void importData() throws IOException {
         bankAccounts = new HashMap<>();
         
-        Scanner file = new Scanner( new File("bank.dat") );        
-        int amountData = file.nextInt();
+        Scanner file = new Scanner( new File("bank.dat") );
         
-        for(int i = 0; i < amountData; i++) {
-            file.nextLine();
-            bankAccounts.put( file.next(), file.nextDouble() );
+        while(file.hasNextLine()) {
+            bankAccounts.put( file.next(), Double.parseDouble(file.nextLine()) );
         }
         
         file.close();
@@ -53,9 +58,6 @@ public class BankBot {
     public void exportData() {
         try {
             PrintWriter outFile = new PrintWriter("bank.dat");
-            int dataAmount = bankAccounts.size();
-
-            outFile.println(dataAmount);
 
             for(String key : bankAccounts.keySet()) {
                 outFile.println( key + " " + bankAccounts.get(key) );

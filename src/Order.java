@@ -10,14 +10,15 @@ class Order implements Serializable {
     private Date date;
     private Cart cart;
 
-    public Order(Cart cart, Date orderDate, String name, String phone, String address) {
-        this.status = "PENDING";
+    public Order(Cart cart, Date orderDate, String name, String phone, String address, String auth) {
+        this.status = "ORDERED";
         this.cart = cart;
         this.date = orderDate;
         
         this.name = name;
         this.phone = phone;
         this.address = address;
+        this.authNumber = auth;
     }
 
     public String getStatus() {
