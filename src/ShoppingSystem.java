@@ -15,8 +15,9 @@ class ShoppingSystem implements ShoppingSystemConstants {
     private HashMap<String, ArrayList<Order>> allOrders;//Id to List of Orders
 
     private User currUser;                  //current User Obj
-    private Supplier supplier = new Supplier(); //Since all suppliers use the same account
-    
+    // private Supplier supplier = new Supplier(); //Since all suppliers use the same account
+    private Supplier supplier = new Supplier(new ArrayList<Order>());
+
     private BankBot theBank = new BankBot(); //Banking System
     
     //All Instances used for User Objects 
