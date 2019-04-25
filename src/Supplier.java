@@ -19,8 +19,8 @@ class Supplier extends User implements SupplierConstants {
         importItems();
     }
     
-    public void processOrderDelivery() {
-
+    public void processOrderDelivery(Order o) {
+        
     }
 
     public void confirmShipment() {
