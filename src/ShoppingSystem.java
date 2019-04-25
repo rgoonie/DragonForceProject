@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-class ShoppingSystem {
+class ShoppingSystem implements ShoppingSystemConstants {
 
     //used for any input necessary
     private Scanner kb = new Scanner(System.in);
@@ -13,6 +13,12 @@ class ShoppingSystem {
     private HashMap<String, String> signInInfo;         //Id to Pass
     private HashMap<String, Customer> customerAccounts; //Id to Customer Obj
     private HashMap<String, ArrayList<Order>> allOrders;//Id to List of Orders
+
+    private User currUser;                  //current User Obj
+    // private Supplier supplier = new Supplier(); //Since all suppliers use the same account
+    private Supplier supplier = new Supplier(new ArrayList<Order>());
+
+    private BankBot theBank = new BankBot(); //Banking System
     
     //All Instances used for User Objects 
     private User noUser = new User() {  //Has menu when no user is signed in
@@ -20,10 +26,7 @@ class ShoppingSystem {
             @Override
             int menu(Scanner in) {
                 int selection = -1;
-                System.out.println("\n------------Menu------------");
-                System.out.println("[c]reate account");
-                System.out.println("[l]og in");
-                System.out.println("[e]xit");
+                System.out.println(MENU);
                 
                 while(selection == -1) {
                     System.out.print("Enter your choice (c, l, e):: ");
@@ -33,9 +36,9 @@ class ShoppingSystem {
                         input += in.nextLine().replace(" ", "").toLowerCase();
                     
                     switch(input.charAt(0)){
-                        case 'c': selection = 2; break;
-                        case 'l': selection = 0; break;
-                        case 'e': selection = 8; break;
+                        case CREATE: selection = 2; break;
+                        case LOGIN: selection = 0; break;
+                        case EXIT: selection = 8; break;
                         
                         default: System.out.println("'" + input.charAt(0) + "' is not a valid input - please try again" );
                     }
@@ -45,42 +48,40 @@ class ShoppingSystem {
                 return selection;
             }
         };
-    private User currUser;                  //current User Obj
-    private Supplier supplier = new Supplier(); //Since all suppliers use the same account
-    
-    private BankBot theBank = new BankBot(); //Banking System
     
     public ShoppingSystem() {
-        signInInfo = importLogIn();
-        customerAccounts = importCustomers();
-        allOrders = importOrders();
+        this.signInInfo = importLogIn();
+        this.customerAccounts = importCustomers();
+        this.allOrders = importOrders();
         
-        currUser = noUser;
+        this.currUser = noUser;
     }
     
     //Controller for Shopping System
     public void run() {
         
         while(true) {
-            int operation = currUser.menu(kb);
-            switch(operation){
+            int operation = currUser.menu(this.kb);
+            switch(operation) {
                 
                 case 0: //Log in Sequence
                     String[] info = new String[2];
-                    currUser.signIn(kb, info);
+                    this.currUser.signIn(this.kb, info);
                     
-                    if( signInInfo.containsKey( info[0] ) && signInInfo.get( info[0] ).equals(info[1]) ) {
-                        if( customerAccounts.containsKey( info[0] ) ) {
-                            currUser = customerAccounts.get( info[0] );
+                    String infoZero = info[0];
+
+                    if( this.signInInfo.containsKey( infoZero ) && this.signInInfo.get( infoZero ).equals(info[1]) ) {
+                        if( customerAccounts.containsKey( infoZero ) ) {
+                            this.currUser = customerAccounts.get( infoZero );
                             
-                            System.out.println("\n\n----------------------------");
-                            System.out.println("Welcome, " + ((Customer)currUser).getName() );
-                            System.out.println("----------------------------");
+                            System.out.println(NEW_LINE);
+                            System.out.println("Welcome, " + ((Customer)this.currUser).getName() ); //TODO Not sure if this.currUser will be correctly cast
+                            System.out.println(END_LINE);
                         } else {
-                            System.out.println("\n\n----------------------------");
+                            System.out.println(NEW_LINE);
                             System.out.println("Welcome, Supplier");
-                            System.out.println("----------------------------");
-                            currUser = supplier;
+                            System.out.println(END_LINE);
+                            this.currUser = this.supplier;
                         }
                     } else {
                         System.out.println("Sorry... Either your ID or Password is incorrect");
@@ -89,18 +90,18 @@ class ShoppingSystem {
                     break;
                 
                 case 1: //Log out Sequence
-                    currUser = noUser;
+                    this.currUser = noUser;
                     System.out.println("\nYou have successfully logged out...\n");
                     break;
                 
                 case 2: //Create Account Sequence
-                    currUser.createAccount(kb, signInInfo, customerAccounts, allOrders);
+                    currUser.createAccount(this.kb, this.signInInfo, this.customerAccounts, this.allOrders);
                     System.out.println("\nAccount Successfully Created... Please Sign In...\n\n");
                     break;
                 
                 case 3: 
-                    supplier.displayCatalog();
-                    ((Customer)currUser).selectItems(kb, supplier.getItems());
+                    this.supplier.displayCatalog();
+                    ((Customer)this.currUser).selectItems(this.kb, this.supplier.getItems()); //TODO Not sure if this.currUser will be correctly cast
                     break; //select items
                     
                 case 4: 
@@ -135,7 +136,7 @@ class ShoppingSystem {
                     break; //make order request
                 
                 case 5: 
-                    ((Customer)currUser).viewOrder();
+                    ((Customer)this.currUser).viewOrder(); //TODO Not sure if this.currUser will be correctly cast
                     break; //view orders
                 
                 case 6: break; //process order delivery
@@ -145,7 +146,7 @@ class ShoppingSystem {
                     exportLogIn();
                     exportCustomers();
                     exportOrders();
-                    theBank.exportData();
+                    this.theBank.exportData();
                     System.exit(0);
                     break;
                     
@@ -168,7 +169,7 @@ class ShoppingSystem {
         try {
             HashMap<String, String> res = new HashMap<>();
 
-            Scanner file = new Scanner( new File( "log_in.dat" ) );
+            Scanner file = new Scanner( new File( LOGIN_FILE ) );
             while( file.hasNextLine() ){
                 String[] info = file.nextLine().split("-");
                 res.put(info[0], info[1]);
@@ -185,9 +186,9 @@ class ShoppingSystem {
     private void exportLogIn() {
         //sign in data
         try {
-            PrintWriter outFile = new PrintWriter("log_in.dat");        
-            for(String key : signInInfo.keySet()){
-                outFile.println(key + "-" + signInInfo.get(key));
+            PrintWriter outFile = new PrintWriter(LOGIN_FILE);        
+            for(String key : this.signInInfo.keySet()){
+                outFile.println(key + "-" + this.signInInfo.get(key));
             }
             outFile.close();
         } catch(Exception e) {
@@ -199,14 +200,16 @@ class ShoppingSystem {
         try {
             HashMap<String, Customer> res = new HashMap<>();
 
-            Scanner file = new Scanner( new File( "customers.dat" ) );
-            FileInputStream inStream = new FileInputStream("customers.objects");
+            Scanner file = new Scanner( new File( CUSTOMERS_DATA ) );
+            FileInputStream inStream = new FileInputStream(CUSTOMERS_OBJECT);
             ObjectInputStream objectInFile = new ObjectInputStream(inStream);
 
             while(file.hasNextLine()){
                 res.put(file.nextLine(), (Customer)objectInFile.readObject());
             }
 
+            file.close();
+            objectInFile.close();
             return res;
         } catch(Exception e) {
             System.out.println("Unable to load customer data...");
@@ -216,8 +219,8 @@ class ShoppingSystem {
     
     private void exportCustomers() {
        try {         
-            PrintWriter outFile = new PrintWriter("customers.dat");        
-            FileOutputStream outStream = new FileOutputStream("customers.objects");
+            PrintWriter outFile = new PrintWriter(CUSTOMERS_DATA);        
+            FileOutputStream outStream = new FileOutputStream(CUSTOMERS_OBJECT);
             ObjectOutputStream objectOutFile = new ObjectOutputStream(outStream);
 
             for(String key : customerAccounts.keySet()){
@@ -236,14 +239,16 @@ class ShoppingSystem {
         try {
             HashMap<String, ArrayList<Order>> res = new HashMap<>();
 
-            Scanner file = new Scanner( new File( "orders.dat" ) );
-            FileInputStream inStream = new FileInputStream("orders.objects");
+            Scanner file = new Scanner( new File( ORDERS_DATA ) );
+            FileInputStream inStream = new FileInputStream(ORDERS_OBJECT);
             ObjectInputStream objectInFile = new ObjectInputStream(inStream);
 
             while(file.hasNextLine()){
                 res.put(file.nextLine(), (ArrayList<Order>)objectInFile.readObject());
             }
 
+            file.close();
+            objectInFile.close();
             return res;
         } catch(Exception e) {
             System.out.println("Unable to load order data...");
@@ -253,13 +258,13 @@ class ShoppingSystem {
     
     private void exportOrders() {
         try {         
-            PrintWriter outFile = new PrintWriter("orders.dat");        
-            FileOutputStream outStream = new FileOutputStream("orders.objects");
+            PrintWriter outFile = new PrintWriter(ORDERS_DATA);        
+            FileOutputStream outStream = new FileOutputStream(ORDERS_OBJECT);
             ObjectOutputStream objectOutFile = new ObjectOutputStream(outStream);
 
-            for(String key : allOrders.keySet()) {
+            for(String key : this.allOrders.keySet()) {
                 outFile.println(key);
-                objectOutFile.writeObject( allOrders.get(key) );
+                objectOutFile.writeObject( this.allOrders.get(key) );
             }
 
             outFile.close();
