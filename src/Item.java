@@ -3,6 +3,7 @@ import java.io.Serializable;
 
 class Item implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private double price;
     private String name, description;
     private int quantity;

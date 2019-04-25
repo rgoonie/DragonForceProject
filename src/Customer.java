@@ -7,6 +7,7 @@ import java.util.Set;
 
 class Customer extends User implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private String phoneNumber, address, name, creditCardNumber;
     private Cart cart;
 

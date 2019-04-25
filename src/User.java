@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 abstract class User implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     protected String id, password;
 
     public User() {

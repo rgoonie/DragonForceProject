@@ -4,6 +4,7 @@ import java.util.Map;
 
 class Cart implements Serializable{
 
+    private static final long serialVersionUID = 1L;
     private double total;
     private HashMap<Item, Integer> items;
 

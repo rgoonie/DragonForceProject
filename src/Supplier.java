@@ -1,12 +1,12 @@
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
 class Supplier extends User {
     
+    private static final long serialVersionUID = 1L;
     private HashMap<Item, Integer> catalog;
     
     public Supplier() {
@@ -19,13 +19,22 @@ class Supplier extends User {
         super(id, password);
     }
     
-    public void processOrderDelivery() {}
+    public void processOrderDelivery() {
 
-    public void confirmShipment() {}
+    }
 
-    public void retrieveOrder() {}
+    public void confirmShipment() {
 
-    public void selectOrder(Order order) {}
+    }
+
+    public void retrieveOrder() {
+    // public Order retireveOrder() {
+        
+    }
+
+    public void selectOrder(Order order) {
+
+    }
 
     public boolean checkAvalibility(Item item, int numberRequested) {
         return this.catalog.get(item) <= numberRequested;
