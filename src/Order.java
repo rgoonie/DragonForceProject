@@ -48,6 +48,10 @@ class Order implements Serializable {
     public String getPhone() {
         return this.phone;
     }
+
+    public Date getDate() {
+        return this.date;
+    }
     
     public void viewOrder() {
         HashMap<Item, Integer> items = this.cart.getItems();
