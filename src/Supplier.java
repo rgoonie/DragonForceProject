@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Set;
 
-class Supplier extends User implements ShoppingSystemConstants {
+class Supplier extends User implements SupplierConstants {
     
     private static final long serialVersionUID = 1L;
     private HashMap<Item, Integer> catalog;

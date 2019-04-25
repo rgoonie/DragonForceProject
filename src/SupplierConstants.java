@@ -1,4 +1,4 @@
-interface ShoppingSystemConstants {
+interface SupplierConstants {
 
     public static final String MAIN_MENU = "\n\n------------Menu------------\n[p]rocess delivery order\n[c]onfirm shipment\n[l]og out";
     public static final char PROCESS = 'p';
