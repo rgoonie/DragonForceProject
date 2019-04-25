@@ -53,7 +53,7 @@ public class BankBot {
         try {
             PrintWriter outFile = new PrintWriter("bank.dat");
 
-            for(String key : this.bankAccounts.keySet()) {
+            for(String key : bankAccounts.keySet()) {
                 outFile.println( key + " " + bankAccounts.get(key) );
             }
 

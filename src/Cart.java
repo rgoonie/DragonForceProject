@@ -19,7 +19,7 @@ class Cart implements Serializable{
      * @param quantity The amount of the item to be added
      */
     public void addItem(Item item, int quantity) {
-        if(this.items.get(item) != null)
+        if( items.get(item) != null)
             items.put(item, items.get(item) + quantity);
         else
             items.put(item, quantity);
