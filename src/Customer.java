@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Set;
 
-class Customer extends User implements Serializable {
+class Customer extends User implements Serializable, CustomerConstants {
 
     private static final long serialVersionUID = 1L;
     private String phoneNumber, address, name, creditCardNumber;
@@ -31,17 +31,17 @@ class Customer extends User implements Serializable {
             }
             System.out.println("[e]xit");
 
-            System.out.print("Which item would you like to add to cart:: ");
-            String input = in.nextLine().replace(" ", "").toLowerCase();
+            System.out.print(ADD_ITEM_PROMPT);
+            String input = cleanInput(in.nextLine());
             while(input.equals(""))
-                input += in.nextLine().replace(" ", "").toLowerCase();
+                input += cleanInput(in.nextLine());
 
             while(input.charAt(0) != 'e' && (input.charAt(0)< 49 || input.charAt(0) > 48+i )) {
                 System.out.println("\n'" + input.charAt(0) + "' is not a valid input... please try again");
-                System.out.print("Which item would you like to add to cart:: ");
-                input = in.nextLine().replace(" ", "").toLowerCase();
+                System.out.print(ADD_ITEM_PROMPT);
+                input = cleanInput(in.nextLine());
                 while(input.equals(""))
-                    input += in.nextLine().replace(" ", "").toLowerCase();
+                    input += cleanInput(in.nextLine());
             }
 
             if(input.charAt(0) == 'e'){
@@ -85,13 +85,13 @@ class Customer extends User implements Serializable {
     public void viewOrder() {
         HashMap<Item, Integer> items = this.cart.getItems();
         
-        System.out.println("\n--------------------------------------------------");
+        System.out.println(NEW_LINE);
         System.out.println( String.format("%-15s%15s%15s", "<Items>", "<Quantity>", "<Cost>") );
         for(Item item : items.keySet()) {
             System.out.println( String.format("%-15s%15d%15.2f", item.getName(), items.get(item), item.getPrice()*items.get(item)) );
         }
         System.out.println( String.format("\n%-15s%15s%15.2f", "Total Cost.....", "...............", this.cart.getTotal()) );
-        System.out.println("--------------------------------------------------");
+        System.out.println(END_LINE);
     }
 
     /**
@@ -112,24 +112,20 @@ class Customer extends User implements Serializable {
     int menu(Scanner in) {
         int selection = -1;
         
-        System.out.println("\n\n------------Menu------------");
-        System.out.println("[s]elect items");
-        System.out.println("[m]ake order request");
-        System.out.println("[v]iew order");
-        System.out.println("[l]og out");
+        System.out.println(MENU);
 
         while(selection == -1) {
             System.out.print("Enter your choice (s, m, v, l):: ");
 
-            String input = in.nextLine().replace(" ", "").toLowerCase();
+            String input = cleanInput(in.nextLine());
             while(input.equals(""))
-                input += in.nextLine().replace(" ", "").toLowerCase();
+                input += cleanInput(in.nextLine());
 
             switch(input.charAt(0)){
-                case 's': selection = 3; break;
-                case 'm': selection = 4; break;
-                case 'v': selection = 5; break;
-                case 'l': selection = 1; break;
+                case SELECT: selection = 3; break;
+                case MAKE: selection = 4; break;
+                case VIEW: selection = 5; break;
+                case LOGOUT: selection = 1; break;
 
                 default: System.out.println("'" + input.charAt(0) + "' is not a valid input - please try again" );
             }
