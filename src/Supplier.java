@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.ArrayList;
+import java.util.Date;
 
 class Supplier extends User implements SupplierConstants {
     
@@ -26,8 +27,13 @@ class Supplier extends User implements SupplierConstants {
 
     }
 
-    public Order retireveOrder() {
-        return this.pendingOrders.get(0);
+    public Order retireveOrder(Date date) {
+        for(Order o : pendingOrders){
+            if(o.getDate() == date) {
+                return o;
+            }
+        }
+        return new Order(new Cart(), new Date(), "", "", "");
     }
 
     public void selectOrder(Order order) {
