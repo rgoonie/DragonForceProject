@@ -159,6 +159,10 @@ class ShoppingSystem {
                 case 9:
                     ((Customer)currUser).removeItems(kb);
                     break;
+                    
+                case 10:
+                    ((Customer)currUser).viewCart();
+                    break;
             }
             
             
