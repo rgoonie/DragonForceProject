@@ -66,9 +66,9 @@ class Supplier extends User {
         while(selection == -1) {
             System.out.print("Enter your choice (p, c, l):: ");
 
-            String input = in.nextLine().replace(" ", "").toLowerCase();
+            String input = cleanInput(in.nextLine());
             while(input.equals(""))
-                input += in.nextLine().replace(" ", "").toLowerCase();
+                input += cleanInput(in.nextLine());
 
             switch(input.charAt(0)) {
                 case 'p': selection = 6; break;
@@ -81,6 +81,10 @@ class Supplier extends User {
         }
 
         return selection;
+    }
+
+    public String cleanInput(String inpt) {
+        return inpt.replace(" ", "").toLowerCase();
     }
     
 //---------------------------Import/Export Functions----------------------------
