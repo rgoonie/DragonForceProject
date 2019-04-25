@@ -3,15 +3,18 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.ArrayList;
 
 class Supplier extends User implements SupplierConstants {
     
     private static final long serialVersionUID = 1L;
     private HashMap<Item, Integer> catalog;
+    private ArrayList<Order> pendingOrders;
     
-    public Supplier() {
+    public Supplier(ArrayList<Order> pendingOrders) {
         super();
         this.catalog = new HashMap<>();
+        this.pendingOrders = pendingOrders;
         importItems();
     }
     
