@@ -37,7 +37,7 @@ class ShoppingSystem {
                         case 'l': selection = 0; break;
                         case 'e': selection = 8; break;
                         
-                        default: System.out.println("'" + input.charAt(0) + "' is not a valid input - please try again" );
+                        default: System.out.println("'" + input.charAt(0) + "' is not a valid input - please try again\n" );
                     }
                     
                 }
@@ -155,7 +155,10 @@ class ShoppingSystem {
                  * are extra add ons to the project in order to make the UI/UX
                  * more like a real online shopping system.
                  */
-                
+                    
+                case 9:
+                    ((Customer)currUser).removeItems(kb);
+                    break;
             }
             
             
@@ -234,18 +237,20 @@ class ShoppingSystem {
     
     private HashMap<String, ArrayList<Order>> importOrders() {
         try {
-            HashMap<String, ArrayList<Order>> res = new HashMap<>();
+                HashMap<String, ArrayList<Order>> res = new HashMap<>();
 
-            Scanner file = new Scanner( new File( "orders.dat" ) );
-            FileInputStream inStream = new FileInputStream("orders.objects");
-            ObjectInputStream objectInFile = new ObjectInputStream(inStream);
+                Scanner file = new Scanner( new File( "orders.dat" ) );
+                FileInputStream inStream = new FileInputStream("orders.objects");
+                ObjectInputStream objectInFile = new ObjectInputStream(inStream);
 
-            while(file.hasNextLine()){
-                res.put(file.nextLine(), (ArrayList<Order>)objectInFile.readObject());
-            }
+                while(file.hasNextLine()){
+                    res.put(file.nextLine(), (ArrayList<Order>)objectInFile.readObject());
+                }
 
-            return res;
-        } catch(Exception e) {
+                return res;
+        } 
+        
+        catch(Exception e) {
             System.out.println("Unable to load order data...");
             return new HashMap<String, ArrayList<Order>>();
         }
