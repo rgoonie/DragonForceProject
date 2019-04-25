@@ -36,10 +36,6 @@ class Supplier extends User implements SupplierConstants {
         return new Order(new Cart(), new Date(), "", "", "");
     }
 
-    public void selectOrder(Order order) {
-
-    }
-
     public boolean checkAvalibility(Item item, int numberRequested) {
         return this.catalog.get(item) <= numberRequested;
         // return item.getQuantity() <= numberRequested;
