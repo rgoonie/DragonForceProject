@@ -25,16 +25,15 @@ class Cart implements Serializable{
             
         updateTotal();
     }
-
-    /**
-     * Removes an item from the cart
-     * @param item The time to be removed from the cart
-     */
-    public void removeItem(Item item) {
-        items.remove(item);
+    
+    public void removeItem(Item item, int quantity){
+        items.put(item, items.get(item) - quantity);
+        if(items.get(item) <= 0)
+            items.remove(item);
+        
         updateTotal();
     }
-
+    
     private void updateTotal() {
         total = 0.0;
         for(Map.Entry<Item, Integer> item: items.entrySet()) {

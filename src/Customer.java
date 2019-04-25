@@ -36,7 +36,7 @@ class Customer extends User implements Serializable {
                 input += in.nextLine().replace(" ", "").toLowerCase();
 
             while(input.charAt(0) != 'e' && (input.charAt(0)< 49 || input.charAt(0) > 48+i )) {
-                System.out.println("\n'" + input.charAt(0) + "' is not a valid input... please try again");
+                System.out.println("\n'" + input.charAt(0) + "' is not a valid input... please try again\n");
                 System.out.print("Which item would you like to add to cart:: ");
                 input = in.nextLine().replace(" ", "").toLowerCase();
                 while(input.equals(""))
@@ -56,7 +56,7 @@ class Customer extends User implements Serializable {
                             throw new Exception();
                     } catch(Exception e) {
                         amount = -1;
-                        System.out.println("\nInvalid amount... please try again");
+                        System.out.println("\nInvalid amount... please try again\n");
                     }
                 }
 
@@ -68,6 +68,74 @@ class Customer extends User implements Serializable {
                 System.out.println(amount + " " + list.get(input.charAt(0) - 49).getName() + "(s) was added to your cart.");
             }
         }
+    }
+    
+    public void removeItems(Scanner in){
+        int i;
+        while(true) {
+            ArrayList<Item> list = new ArrayList<>(cart.getItems().keySet());
+            if(list.isEmpty()){
+                System.out.println("Your cart is empty...\n");
+                return;
+            }
+            
+            viewCart();
+            System.out.println();
+            for(i = 0; i<list.size(); i++) {
+                System.out.println( String.format("[%d] %s", i+1, list.get(i).getName() ) );
+            }
+            System.out.println("[e]xit");
+
+            System.out.print("Which item would you like to remove to cart:: ");
+            String input = in.nextLine().replace(" ", "").toLowerCase();
+            while(input.equals(""))
+                input += in.nextLine().replace(" ", "").toLowerCase();
+
+            while(input.charAt(0) != 'e' && (input.charAt(0)< 49 || input.charAt(0) > 48+i )) {
+                System.out.println("\n'" + input.charAt(0) + "' is not a valid input... please try again\n");
+                System.out.print("Which item would you like to remove to cart:: ");
+                input = in.nextLine().replace(" ", "").toLowerCase();
+                while(input.equals(""))
+                    input += in.nextLine().replace(" ", "").toLowerCase();
+            }
+
+            if(input.charAt(0) == 'e'){
+                return;
+            } else {
+                int amount = -1;
+                while(amount == -1) {
+                    System.out.print("How many would you like to remove:: ");
+                    try {
+                        amount = Integer.parseInt(in.nextLine());
+
+                        if(amount <0)
+                            throw new Exception();
+                    } catch(Exception e) {
+                        amount = -1;
+                        System.out.println("\nInvalid amount... please try again\n");
+                    }
+                }
+
+                if(amount == 0) {
+                    System.out.println("Cancelled removal from cart...");
+                    continue;
+                }                
+                cart.removeItem(list.get(input.charAt(0) - 49), amount);
+                System.out.println(amount + " " + list.get(input.charAt(0) - 49).getName() + "(s) was removed from your cart.");
+            }
+        }
+    }
+    
+    public void viewCart(){
+        HashMap<Item, Integer> items = cart.getItems();
+        
+        System.out.println("\n-----------------------Cart-----------------------");
+        System.out.println( String.format("%-15s%15s%15s", "<Items>", "<Quantity>", "<Cost>") );
+        for(Item item : items.keySet()) {
+            System.out.println( String.format("%-15s%15d%15.2f", item.getName(), items.get(item), item.getPrice()*items.get(item)) );
+        }
+        System.out.println( String.format("\n%-15s%15s%15.2f", "Total Cost.....", "...............", cart.getTotal()) );
+        System.out.println("--------------------------------------------------");
     }
 
     /**
@@ -137,25 +205,27 @@ class Customer extends User implements Serializable {
         int selection = -1;
         
         System.out.println("\n\n------------Menu------------");
-        System.out.println("[s]elect items");
+        System.out.println("[a]dd items to cart");
+        System.out.println("[r]emove items from cart");
         System.out.println("[m]ake order request");
         System.out.println("[v]iew order");
         System.out.println("[l]og out");
 
         while(selection == -1) {
-            System.out.print("Enter your choice (s, m, v, l):: ");
+            System.out.print("Enter your choice (a, r, m, v, l):: ");
 
             String input = in.nextLine().replace(" ", "").toLowerCase();
             while(input.equals(""))
                 input += in.nextLine().replace(" ", "").toLowerCase();
 
             switch(input.charAt(0)){
-                case 's': selection = 3; break;
+                case 'a': selection = 3; break;
+                case 'r': selection = 9; break;
                 case 'm': selection = 4; break;
                 case 'v': selection = 5; break;
                 case 'l': selection = 1; break;
 
-                default: System.out.println("'" + input.charAt(0) + "' is not a valid input - please try again" );
+                default: System.out.println("'" + input.charAt(0) + "' is not a valid input - please try again\n" );
             }
 
         }

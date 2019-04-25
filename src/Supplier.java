@@ -67,7 +67,7 @@ class Supplier extends User {
                 case 'c': selection = 7; break;
                 case 'l': selection = 1; break;
 
-                default: System.out.println("'" + input.charAt(0) + "' is not a valid input - please try again" );
+                default: System.out.println("'" + input.charAt(0) + "' is not a valid input - please try again\n" );
             }
 
         }
