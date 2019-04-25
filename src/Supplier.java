@@ -19,12 +19,12 @@ class Supplier extends User implements SupplierConstants {
         importItems();
     }
     
-    public void processOrderDelivery(Order o) {
-        
+    public void processOrderDelivery(Order o, String status) {
+        o.setStatus(status);
     }
 
-    public void confirmShipment() {
-
+    public boolean confirmShipment(Order o) {
+        return o.getStatus().equals("SHIPPED");
     }
 
     public Order retireveOrder(Date date) {
