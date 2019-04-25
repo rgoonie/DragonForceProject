@@ -26,9 +26,8 @@ class Supplier extends User implements SupplierConstants {
 
     }
 
-    public void retrieveOrder() {
-    // public Order retireveOrder() {
-        
+    public Order retireveOrder() {
+        return this.pendingOrders.get(0);
     }
 
     public void selectOrder(Order order) {
