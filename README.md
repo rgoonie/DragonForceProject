@@ -6,7 +6,8 @@ Assumption:
   3. While the Bank object should be an interface, it's processes are automated.
   4. A supplier will have at least 5 items
   5. For menu interfaces that are expecting strings or chars, only the first character entered will be evaluated.
-  6. 
+  6. User Interface is ran in the console.
+  7.
   
   
 Features to be add:
