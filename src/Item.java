@@ -15,18 +15,30 @@ class Item implements Serializable {
         this.quantity = quantity;
     }
 
+    /**
+     * @return The price of the item
+     */
     public double getPrice() {
         return this.price;
     }
 
+    /**
+     * @return The name of the item
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * @return The description of the item
+     */
     public String getDescription() {
         return this.description;
     }
     
+    /**
+     * @return The amount of the item the supplier has
+     */
     public int getQuantity() {
         return this.quantity;
     }

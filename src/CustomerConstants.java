@@ -8,6 +8,7 @@ interface CustomerConstants {
     public static final char MAKE = 'm';
     public static final char VIEW = 'v';
     public static final char LOGOUT = 'l';
+    public static final char EXIT = 'e';
 
     //Messages
     public static final String NEW_LINE = "\n--------------------------------------------------";

@@ -33,9 +33,9 @@ class ShoppingSystem implements ShoppingSystemConstants {
                 while(selection == -1) {
                     System.out.print("Enter your choice (c, l, e):: ");
                     
-                    String input = in.nextLine().replace(" ", "").toLowerCase();
+                    String input = cleanInput(in.nextLine());
                     while(input.equals(""))
-                        input += in.nextLine().replace(" ", "").toLowerCase();
+                        input += cleanInput(in.nextLine());
                     
                     switch(input.charAt(0)){
                         case CREATE: selection = 2; break;
@@ -59,7 +59,9 @@ class ShoppingSystem implements ShoppingSystemConstants {
         this.currUser = noUser;
     }
     
-    //Controller for Shopping System
+    /**
+     * Controller for Shopping System
+     */
     public void run() {
         
         while(true) {
@@ -77,7 +79,7 @@ class ShoppingSystem implements ShoppingSystemConstants {
                             this.currUser = customerAccounts.get( infoZero );
                             
                             System.out.println(NEW_LINE);
-                            System.out.println("Welcome, " + ((Customer)this.currUser).getName() ); //TODO Not sure if this.currUser will be correctly cast
+                            System.out.println("Welcome, " + ((Customer)this.currUser).getName() );
                             System.out.println(END_LINE);
                         } else {
                             System.out.println(NEW_LINE);
@@ -103,7 +105,7 @@ class ShoppingSystem implements ShoppingSystemConstants {
                 
                 case 3: //Select Items
                     this.supplier.displayCatalog();
-                    ((Customer)this.currUser).selectItems(this.kb, this.supplier.getItems()); //TODO Not sure if this.currUser will be correctly cast
+                    ((Customer)this.currUser).selectItems(this.kb, this.supplier.getItems());
                     break;
                     
                 case 4: //Make Order Request
@@ -139,13 +141,7 @@ class ShoppingSystem implements ShoppingSystemConstants {
                     break;
                 
                 case 5: //View Order
-                	
-                	((Customer)this.currUser).viewOrder(kb, allOrders.get(currUser.id));
-                	                	
-                	// display order func
-
-                	
-                    //((Customer)this.currUser).viewOrder();
+                	((Customer)this.currUser).viewOrder(kb, allOrders.get(currUser.id));               	
                     break;
                 
                 case 6: 
@@ -226,6 +222,9 @@ class ShoppingSystem implements ShoppingSystemConstants {
         }
     }
     
+    /**
+     * @return Collects all of the customers
+     */
     private HashMap<String, Customer> importCustomers() {
         try {
             HashMap<String, Customer> res = new HashMap<>();
@@ -247,6 +246,9 @@ class ShoppingSystem implements ShoppingSystemConstants {
         }
     }
     
+    /**
+     * Writes all of the customer data to the correct files
+     */
     private void exportCustomers() {
        try {         
             PrintWriter outFile = new PrintWriter(CUSTOMERS_DATA);        
@@ -265,6 +267,9 @@ class ShoppingSystem implements ShoppingSystemConstants {
         }
     }
     
+    /**
+     * @return Collects all of the orders
+     */
     private HashMap<String, ArrayList<Order>> importOrders() {
         orderedOrders = new ArrayList<>();
         readiedOrders = new ArrayList<>();
@@ -297,6 +302,9 @@ class ShoppingSystem implements ShoppingSystemConstants {
         }
     }
     
+    /**
+     * Writes all of the order data to the correct files
+     */
     private void exportOrders() {
         try {         
             PrintWriter outFile = new PrintWriter(ORDERS_DATA);        

@@ -27,6 +27,12 @@ public class BankBot {
         
     }
 
+    /**
+     * Creates the order request and subtracts the cost from the users account
+     * @param card The credit card number of the client
+     * @param cost The cost of the total cart
+     * @return The order number
+     */
     public String makeOrderRequest(String card, double cost) { 
         
         Double account = bankAccounts.get(card);

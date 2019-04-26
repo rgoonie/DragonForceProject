@@ -21,6 +21,10 @@ abstract class User implements Serializable {
     /**
      * Creates a new User account
      * Same for all user since only someone not signed in will use this
+     * @param in The CLI input
+     * @param singInInfo A list of all the current IDs
+     * @param customerAccount All of the current customer accounts
+     * @param orderData All of the orders created
      */
     final void createAccount(Scanner in, HashMap<String, String> signInInfo, HashMap<String, Customer> customerAccount, HashMap<String, ArrayList<Order>> orderData) {
         char choice = 'X';
@@ -96,6 +100,8 @@ abstract class User implements Serializable {
     /**
      * Sign in existing User
      * Same for all users as both suppliers and customers need to have id and pass
+     * @param in The CLI input
+     * @param out The username and password
      */
     final void signIn(Scanner in, String[] out) {
         System.out.print("\nEnter User ID:: ");
@@ -110,10 +116,19 @@ abstract class User implements Serializable {
      */
     abstract int menu(Scanner in);
 
+    /**
+     * @param inpt The input string
+     * @return A version of the input string without spaces and all lowercase
+     */
     protected String cleanInput(String inpt) {
         return inpt.replace(" ", "").toLowerCase();
     }
     
+    /**
+     * A safe method to convert from strings to integers
+     * @param str The string version of an integer
+     * @return An integer object converted from a string
+     */
     protected Integer convertToInt(String str){
         Integer res;
         try{

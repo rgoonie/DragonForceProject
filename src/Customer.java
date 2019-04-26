@@ -21,6 +21,11 @@ class Customer extends User implements Serializable, CustomerConstants {
         this.cart = new Cart();        
     }
     
+    /**
+     * 
+     * @param in The CLI input method
+     * @param items All the items in the shopping system
+     */
     public void selectItems(Scanner in, Set<Item> items) {
         ArrayList<Item> list = new ArrayList<>(items);
         int i =0;
@@ -40,7 +45,7 @@ class Customer extends User implements Serializable, CustomerConstants {
             if(selection != null && (selection > list.size() || selection < 1))
                 selection = null;
             
-            while(input.charAt(0) != 'e' && selection == null){
+            while(input.charAt(0) != EXIT && selection == null){
                 System.out.println("'" + input + "' is not a valid input... please try again\n");
                 System.out.print(ADD_ITEM_PROMPT);
                 input = cleanInput(in.nextLine());
@@ -52,7 +57,7 @@ class Customer extends User implements Serializable, CustomerConstants {
                     selection = null;
             } 
 
-            if(input.charAt(0) == 'e'){
+            if(input.charAt(0) == EXIT){
                 return;
             } else {
                 int amount = -1;
@@ -79,6 +84,10 @@ class Customer extends User implements Serializable, CustomerConstants {
         }
     }
     
+    /**
+     * Remove items menu
+     * @param in The CLI input
+     */
     public void removeItems(Scanner in){
         int i;
         while(true) {
@@ -104,7 +113,7 @@ class Customer extends User implements Serializable, CustomerConstants {
             if(selection != null && (selection > list.size() || selection < 1))
                 selection = null;
             
-            while(input.charAt(0) != 'e' && selection == null) {
+            while(input.charAt(0) != EXIT && selection == null) {
                 System.out.println("'" + input + "' is not a valid input... please try again\n");
                 System.out.print("Which item would you like to remove to cart:: ");
                 input = in.nextLine().replace(" ", "").toLowerCase();
@@ -116,7 +125,7 @@ class Customer extends User implements Serializable, CustomerConstants {
                     selection = null;
             }
 
-            if(input.charAt(0) == 'e'){
+            if(input.charAt(0) == EXIT){
                 return;
             } else {
                 int amount = -1;
@@ -143,6 +152,9 @@ class Customer extends User implements Serializable, CustomerConstants {
         }
     }
     
+    /**
+     * Outputs the cart onto the CLI
+     */
     public void viewCart(){
         HashMap<Item, Integer> items = cart.getItems();
         
@@ -157,6 +169,7 @@ class Customer extends User implements Serializable, CustomerConstants {
 
     /**
      * Places the order and empties the cart
+     * @param auth The authroization number
      */
     public Order makeOrderRequest(String auth) {
         Order res =  new Order( this.cart, new Date(), this.name, this.phoneNumber, this.address, this.creditCardNumber, auth );
@@ -165,6 +178,11 @@ class Customer extends User implements Serializable, CustomerConstants {
         return res;
     }
     
+    /**
+     * Displays the users orders
+     * @param in The CLI input
+     * @param list A list of all the users orders
+     */
     public void viewOrder(Scanner in, ArrayList<Order> list) {
     	int i;
         while(true) {
@@ -180,27 +198,27 @@ class Customer extends User implements Serializable, CustomerConstants {
             System.out.println("[e]xit");
 
             System.out.print("Which order would you like to view:: ");
-            String input = in.nextLine().replace(" ", "").toLowerCase();
+            String input = cleanInput(in.nextLine());
             while(input.equals(""))
-                input += in.nextLine().replace(" ", "").toLowerCase();
+                input += cleanInput(in.nextLine());
 
             Integer selection = convertToInt(input);
             if(selection != null && (selection > list.size() || selection < 1))
                 selection = null;
             
-            while(input.charAt(0) != 'e' && selection == null) {
+            while(input.charAt(0) != EXIT && selection == null) {
                 System.out.println("'" + input + "' is not a valid input... please try again\n");
                 System.out.print("Which order would you like to view:: ");
-                input = in.nextLine().replace(" ", "").toLowerCase();
+                input = cleanInput(in.nextLine());
                 while(input.equals(""))
-                    input += in.nextLine().replace(" ", "").toLowerCase();
+                    input += cleanInput(in.nextLine());
                 
                 selection = convertToInt(input);
                 if(selection != null && (selection > list.size() || selection < 1))
                     selection = null;
             }
 
-            if(input.charAt(0) == 'e'){
+            if(input.charAt(0) == EXIT){
                 return;
             } else {
             	list.get(selection-1).viewOrder();
@@ -210,17 +228,22 @@ class Customer extends User implements Serializable, CustomerConstants {
         }
     }
     
+    /**
+     * Changes the users credit card number
+     * @param in The CLI input
+     * @return The new credit card number
+     */
     public String changeCard(Scanner in){
         String credit = "";
         while(credit.equals("")) {
             System.out.print("Enter a credit card number or 'e' to exit:: ");
             
-            credit = in.nextLine().replace('-', ' ').replace(" ", "");
+            credit = cleanInput(in.nextLine().replace('-', ' '));
             while( credit.equals("") )
-                credit = in.nextLine().replace('-', ' ').replace(" ", "").toLowerCase();
+                credit = cleanInput(in.nextLine().replace('-', ' '));
 
             try {
-                if(credit.charAt(0) == 'e'){
+                if(credit.charAt(0) == EXIT){
                     return creditCardNumber;
                 }
                 Long.parseLong(credit);
@@ -230,7 +253,7 @@ class Customer extends User implements Serializable, CustomerConstants {
             }
         }
         
-        creditCardNumber = credit;
+        this.creditCardNumber = credit;
         return credit;
     }
 
@@ -248,13 +271,7 @@ class Customer extends User implements Serializable, CustomerConstants {
     int menu(Scanner in) {
         int selection = -1;
         
-        System.out.println("\n\n------------Menu------------");
-        System.out.println("[a]dd items to cart");
-        System.out.println("[r]emove items from cart");
-        System.out.println("[s]how cart");
-        System.out.println("[m]ake order request");
-        System.out.println("[v]iew order");
-        System.out.println("[l]og out");
+        System.out.println(MENU);
 
         while(selection == -1) {
             System.out.print("Enter your choice (a, r, s, m, v, l):: ");
@@ -264,12 +281,12 @@ class Customer extends User implements Serializable, CustomerConstants {
                 input += cleanInput(in.nextLine());
 
             switch(input.charAt(0)){
-                case 'a': selection =  3; break;
-                case 'r': selection =  9; break;
-                case 's': selection = 10; break;
-                case 'm': selection =  4; break;
-                case 'v': selection =  5; break;
-                case 'l': selection =  1; break;
+                case ADD: selection =  3; break;
+                case REMOVE: selection =  9; break;
+                case SELECT: selection = 10; break;
+                case MAKE: selection =  4; break;
+                case VIEW: selection =  5; break;
+                case LOGOUT: selection =  1; break;
 
                 default: System.out.println("'" + input.charAt(0) + "' is not a valid input - please try again\n" );
             }

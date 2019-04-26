@@ -39,6 +39,11 @@ class Cart implements Serializable{
         updateTotal();
     }
   
+    /**
+     * Removes an item of a specified quantity to the users cart
+     * @param item The item to be removed
+     * @param quantity The amount of the item to be removed
+     */
     public void removeItem(Item item, int quantity){
         for(Item i : items.keySet()){
             if( i.getName().equals(item.getName()) ){
@@ -52,6 +57,9 @@ class Cart implements Serializable{
         updateTotal();
     }
     
+    /**
+     * Recalculates the cart total
+     */
     private void updateTotal() {
         this.total = 0.0;
         for(Map.Entry<Item, Integer> item: this.items.entrySet()) {
@@ -59,10 +67,16 @@ class Cart implements Serializable{
         }
     }
 
+    /**
+     * @return Returns the total cost of the users cart
+     */
     public double getTotal() {
         return this.total;
     }
 
+    /**
+     * @return Returns the users cart
+     */
     public HashMap<Item, Integer> getItems() {
         return this.items;
     }

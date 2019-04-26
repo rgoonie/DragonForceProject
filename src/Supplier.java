@@ -16,6 +16,11 @@ class Supplier extends User implements SupplierConstants {
         importItems();
     }
     
+    /**
+     * @param in The CLI input
+     * @param orderedStuff All of the orders
+     * @param readiedStuff The orders that have been readied already
+     */
     public void processOrderDelivery(Scanner in, ArrayList<Order> orderedStuff, ArrayList<Order> readiedStuff) {
         int i;
         System.out.println();
@@ -33,7 +38,7 @@ class Supplier extends User implements SupplierConstants {
         if(selection != null && (selection > orderedStuff.size() || selection < 1))
             selection = null;
         
-        while(input.charAt(0) != 'e' && selection == null){
+        while(input.charAt(0) != EXIT && selection == null){
             System.out.println("'" + input + "' is not a valid input... please try again\n");
             System.out.print("Which order do you want to process:: ");
             input = cleanInput(in.nextLine());
@@ -45,7 +50,7 @@ class Supplier extends User implements SupplierConstants {
                 selection = null;
         }      
         
-        if(input.charAt(0) == 'e'){
+        if(input.charAt(0) == EXIT){
             return;
         } 
         
@@ -75,6 +80,11 @@ class Supplier extends User implements SupplierConstants {
         }
     }
 
+    /**
+     * Confirms the shipment of an, as of yet unselected, order
+     * @param in The CLI input
+     * @param readiedStuff All of the unconfirmed orders
+     */
     public void confirmShipment(Scanner in, ArrayList<Order> readiedStuff) {
         int i;
         System.out.println();
@@ -92,7 +102,7 @@ class Supplier extends User implements SupplierConstants {
         if(selection != null && (selection > readiedStuff.size() || selection < 1))
             selection = null;
         
-        while(input.charAt(0) != 'e' && selection == null){
+        while(input.charAt(0) != EXIT && selection == null){
             System.out.println("'" + input + "' is not a valid input... please try again\n");
             System.out.print("Which order do you want to confirm shipment:: ");
             input = cleanInput(in.nextLine());
@@ -104,7 +114,7 @@ class Supplier extends User implements SupplierConstants {
                 selection = null;
         }      
         
-        if(input.charAt(0) == 'e'){
+        if(input.charAt(0) == EXIT){
             return;
         } 
         
@@ -117,17 +127,23 @@ class Supplier extends User implements SupplierConstants {
         }
     }
 
+    /**
+     * @param item The item requested
+     * @param numberRequested The quantity of the item requested
+     * @return If there are enough of the item to fulfill the request
+     */
+    //TODO Streamline
     public boolean checkAvalibility(Item item, int numberRequested) {
         for(Item i : catalog.keySet()){
             if(i.getName().equals(item.getName()))
                 return catalog.get(i) >= numberRequested;
         }
         return false;
-
-        //return catalog.get(item) >= numberRequested;
-        // return item.getQuantity() <= numberRequested;
     }
     
+    /**
+     * Outputs the catalog to the CLI
+     */
     public void displayCatalog() {
         System.out.println("\n-----------Catalog----------");
         for(Item item: this.catalog.keySet()) {
@@ -138,15 +154,22 @@ class Supplier extends User implements SupplierConstants {
         System.out.println("\n----------------------------");
     }
     
+    /**
+     * @return All of the items in the catalog
+     */
     public Set<Item> getItems() {
         return this.catalog.keySet();
     }
     
+    /**
+     * Removes the number of items ordered from the catalog
+     * @param orderedItems The item and number that have been ordered
+     */
     private void updateCatalog(HashMap<Item, Integer> orderedItems){
         for(Item o : orderedItems.keySet())
-            for(Item c : catalog.keySet()){
+            for(Item c : this.catalog.keySet()){
                 if(o.getName().equals(c.getName())){
-                    catalog.put(c, catalog.get(c) - orderedItems.get(o));
+                    this.catalog.put(c, this.catalog.get(c) - orderedItems.get(o));
                     break;
                 }
             }

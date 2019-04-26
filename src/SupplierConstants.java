@@ -4,6 +4,7 @@ interface SupplierConstants {
     public static final char PROCESS = 'p';
     public static final char CONFIRM = 'c';
     public static final char LOGOUT = 'l';
+    public static final char EXIT = 'e';
 
     public static final String ITEMS_FILE = "items.dat";
 
