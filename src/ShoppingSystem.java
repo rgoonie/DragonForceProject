@@ -13,10 +13,12 @@ class ShoppingSystem implements ShoppingSystemConstants {
     private HashMap<String, String> signInInfo;         //Id to Pass
     private HashMap<String, Customer> customerAccounts; //Id to Customer Obj
     private HashMap<String, ArrayList<Order>> allOrders;//Id to List of Orders
+    private ArrayList<Order> orderedOrders;       //Orders that need to be processed
+    private ArrayList<Order> readiedOrders;
 
     private User currUser;                  //current User Obj
     // private Supplier supplier = new Supplier(); //Since all suppliers use the same account
-    private Supplier supplier = new Supplier(new ArrayList<Order>());
+    private Supplier supplier = new Supplier();
 
     private BankBot theBank = new BankBot(); //Banking System
     
@@ -99,23 +101,23 @@ class ShoppingSystem implements ShoppingSystemConstants {
                     System.out.println("\nAccount Successfully Created... Please Sign In...\n\n");
                     break;
                 
-                case 3: 
+                case 3: //Select Items
                     this.supplier.displayCatalog();
                     ((Customer)this.currUser).selectItems(this.kb, this.supplier.getItems()); //TODO Not sure if this.currUser will be correctly cast
-                    break; //select items
+                    break;
                     
-                case 4: 
+                case 4: //Make Order Request
                     String creditCard = ((Customer)currUser).getCreditCard();
                     double cartCost = ((Customer)currUser).getCartCost();
                     
                     if(cartCost == 0){
-                        System.out.println("You have no items in your cart...\n");
+                        System.out.println("\nYou have no items in your cart...\n");
                         break;
                     }
                     
                     String auth = theBank.makeOrderRequest(creditCard, cartCost);
                     while(auth == null){
-                        System.out.println("\nThe bank has declined your transaction...");
+                        System.out.println("\nThe bank has declined your transaction using card '" + creditCard + "'...");
                         String newCard = ((Customer)currUser).changeCard(kb);
                         if(newCard.equals(creditCard))
                             break;
@@ -130,22 +132,37 @@ class ShoppingSystem implements ShoppingSystemConstants {
                     
                     Order newOrder = ((Customer)currUser).makeOrderRequest(auth);
                     allOrders.get( currUser.id ).add(newOrder);
+                    orderedOrders.add(newOrder);
                     System.out.println("\nYour request has been approved...");
                     newOrder.viewOrder();
                     
-                    break; //make order request
+                    break;
                 
-                case 5: 
-                    ((Customer)this.currUser).viewOrder(); //TODO Not sure if this.currUser will be correctly cast
-                    break; //view orders
+                case 5: //View Order
+                    ((Customer)this.currUser).viewOrder();
+                    break;
                 
-                case 6: break; //process order delivery
-                case 7: break; //confirm shipment
+                case 6: 
+                    if(orderedOrders.isEmpty()){
+                        System.out.println("\nThere are no orders to be processed...\n");
+                        break;
+                    }
+                    supplier.processOrderDelivery(kb, orderedOrders, readiedOrders);
+                    break; //process order delivery
+                    
+                case 7: 
+                    if(readiedOrders.isEmpty()){
+                        System.out.println("\nThere are no orders to be shipped...\n");
+                        break;
+                    }
+                    supplier.confirmShipment(kb, readiedOrders);
+                    break; //confirm shipment
                 
                 case 8: //Exiting Sequence
                     exportLogIn();
                     exportCustomers();
                     exportOrders();
+                    supplier.exportItems();
                     this.theBank.exportData();
                     System.exit(0);
                     break;
@@ -243,6 +260,9 @@ class ShoppingSystem implements ShoppingSystemConstants {
     }
     
     private HashMap<String, ArrayList<Order>> importOrders() {
+        orderedOrders = new ArrayList<>();
+        readiedOrders = new ArrayList<>();
+        
         try {
                 HashMap<String, ArrayList<Order>> res = new HashMap<>();
                 Scanner file = new Scanner( new File( ORDERS_DATA ) );
@@ -250,7 +270,15 @@ class ShoppingSystem implements ShoppingSystemConstants {
                 ObjectInputStream objectInFile = new ObjectInputStream(inStream);
 
                 while(file.hasNextLine()){
-                    res.put(file.nextLine(), (ArrayList<Order>)objectInFile.readObject());
+                    String id = file.nextLine();
+                    ArrayList<Order> listOfOrders = (ArrayList<Order>)objectInFile.readObject();
+                    res.put(id, listOfOrders);
+                    
+                    for(Order o : listOfOrders)
+                        if(o.getStatus().equals("ORDERED"))
+                            orderedOrders.add(o);
+                        else if(o.getStatus().equals("READY"))
+                            readiedOrders.add(o);
                 }
             file.close();
             objectInFile.close();

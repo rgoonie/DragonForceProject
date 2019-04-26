@@ -50,6 +50,10 @@ class Order implements Serializable {
         return this.phone;
     }
 
+    public Cart getCart(){
+        return this.cart;
+    }
+    
     public Date getDate() {
         return this.date;
     }

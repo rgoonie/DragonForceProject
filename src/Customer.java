@@ -36,13 +36,21 @@ class Customer extends User implements Serializable, CustomerConstants {
             while(input.equals(""))
                 input += cleanInput(in.nextLine());
 
-            while(input.charAt(0) != 'e' && (input.charAt(0)< 49 || input.charAt(0) > 48+i )) {
-                System.out.println("\n'" + input.charAt(0) + "' is not a valid input... please try again");
+            Integer selection = convertToInt(input);
+            if(selection != null && (selection > list.size() || selection < 1))
+                selection = null;
+            
+            while(input.charAt(0) != 'e' && selection == null){
+                System.out.println("'" + input + "' is not a valid input... please try again\n");
                 System.out.print(ADD_ITEM_PROMPT);
                 input = cleanInput(in.nextLine());
                 while(input.equals(""))
                     input += cleanInput(in.nextLine());
-            }
+                
+                selection = convertToInt(input);
+                if(selection != null && (selection > list.size() || selection < 1))
+                    selection = null;
+            } 
 
             if(input.charAt(0) == 'e'){
                 return;
@@ -57,7 +65,7 @@ class Customer extends User implements Serializable, CustomerConstants {
                             throw new Exception();
                     } catch(Exception e) {
                         amount = -1;
-                        System.out.println("\nInvalid amount... please try again\n");
+                        System.out.println("Invalid amount... please try again\n");
                     }
                 }
 
@@ -66,7 +74,7 @@ class Customer extends User implements Serializable, CustomerConstants {
                     continue;
                 }                
                 this.cart.addItem(list.get(input.charAt(0) - 49), amount);
-                System.out.println(amount + " " + list.get(input.charAt(0) - 49).getName() + "(s) was added to your cart.");
+                System.out.println(amount + " " + list.get(selection - 1).getName() + "(s) was added to your cart.");
             }
         }
     }
@@ -92,12 +100,20 @@ class Customer extends User implements Serializable, CustomerConstants {
             while(input.equals(""))
                 input += in.nextLine().replace(" ", "").toLowerCase();
 
-            while(input.charAt(0) != 'e' && (input.charAt(0)< 49 || input.charAt(0) > 48+i )) {
-                System.out.println("\n'" + input.charAt(0) + "' is not a valid input... please try again\n");
+            Integer selection = convertToInt(input);
+            if(selection != null && (selection > list.size() || selection < 1))
+                selection = null;
+            
+            while(input.charAt(0) != 'e' && selection == null) {
+                System.out.println("'" + input + "' is not a valid input... please try again\n");
                 System.out.print("Which item would you like to remove to cart:: ");
                 input = in.nextLine().replace(" ", "").toLowerCase();
                 while(input.equals(""))
                     input += in.nextLine().replace(" ", "").toLowerCase();
+                
+                selection = convertToInt(input);
+                if(selection != null && (selection > list.size() || selection < 1))
+                    selection = null;
             }
 
             if(input.charAt(0) == 'e'){
@@ -113,7 +129,7 @@ class Customer extends User implements Serializable, CustomerConstants {
                             throw new Exception();
                     } catch(Exception e) {
                         amount = -1;
-                        System.out.println("\nInvalid amount... please try again\n");
+                        System.out.println("Invalid amount... please try again\n");
                     }
                 }
 
@@ -159,12 +175,6 @@ class Customer extends User implements Serializable, CustomerConstants {
         }
         System.out.println( String.format("\n%-15s%15s%15.2f", "Total Cost.....", "...............", this.cart.getTotal()) );
         System.out.println(END_LINE);
-    }
-
-    /**
-     * @return All the items in the users cart
-     */
-    public void viewItems() {
     }
     
     public String changeCard(Scanner in){

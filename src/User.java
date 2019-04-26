@@ -35,7 +35,7 @@ abstract class User implements Serializable {
         System.out.print("Enter an ID (case sensitive):: ");
         String newID = in.nextLine();
         while( signInInfo.get(newID) != null ) {
-            System.out.println("\nThis id is already taken... Please Try Again");
+            System.out.println("This id is already taken... Please Try Again\n");
             System.out.print("Enter an ID (case sensitive):: ");
             newID = in.nextLine();
         }
@@ -43,7 +43,7 @@ abstract class User implements Serializable {
         System.out.print("Enter a password (case sensitive, at least 8 characters):: ");
         String pass = in.nextLine();
         while(pass.length() < 8) {
-            System.out.println("\nThis password is not long enough... Please Try Again");
+            System.out.println("This password is not long enough... Please Try Again\n");
             System.out.print("Enter a password (case sensitive, at least 8 characters):: ");
             pass = in.nextLine();
         }
@@ -112,6 +112,19 @@ abstract class User implements Serializable {
 
     protected String cleanInput(String inpt) {
         return inpt.replace(" ", "").toLowerCase();
+    }
+    
+    protected Integer convertToInt(String str){
+        Integer res;
+        try{
+            res = Integer.parseInt(str);
+        }
+        catch(Exception e){
+            res = null;
+        }
+        
+        return res;       
+        
     }
     
 }
