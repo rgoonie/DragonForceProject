@@ -165,16 +165,49 @@ class Customer extends User implements Serializable, CustomerConstants {
         return res;
     }
     
-    public void viewOrder() {
-        HashMap<Item, Integer> items = this.cart.getItems();
-        
-        System.out.println(NEW_LINE);
-        System.out.println( String.format("%-15s%15s%15s", "<Items>", "<Quantity>", "<Cost>") );
-        for(Item item : items.keySet()) {
-            System.out.println( String.format("%-15s%15d%15.2f", item.getName(), items.get(item), item.getPrice()*items.get(item)) );
+    public void viewOrder(Scanner in, ArrayList<Order> list) {
+    	int i;
+        while(true) {
+            if(list.isEmpty()){
+                System.out.println("You have no orders...\n");
+                return;
+            }
+            
+            System.out.println();
+            for(i = 0; i<list.size(); i++) {
+                System.out.println( String.format("[%d] %s", i+1, list.get(i) ) );
+            }
+            System.out.println("[e]xit");
+
+            System.out.print("Which order would you like to view:: ");
+            String input = in.nextLine().replace(" ", "").toLowerCase();
+            while(input.equals(""))
+                input += in.nextLine().replace(" ", "").toLowerCase();
+
+            Integer selection = convertToInt(input);
+            if(selection != null && (selection > list.size() || selection < 1))
+                selection = null;
+            
+            while(input.charAt(0) != 'e' && selection == null) {
+                System.out.println("'" + input + "' is not a valid input... please try again\n");
+                System.out.print("Which order would you like to view:: ");
+                input = in.nextLine().replace(" ", "").toLowerCase();
+                while(input.equals(""))
+                    input += in.nextLine().replace(" ", "").toLowerCase();
+                
+                selection = convertToInt(input);
+                if(selection != null && (selection > list.size() || selection < 1))
+                    selection = null;
+            }
+
+            if(input.charAt(0) == 'e'){
+                return;
+            } else {
+            	list.get(selection-1).viewOrder();
+            }
+            
+            
         }
-        System.out.println( String.format("\n%-15s%15s%15.2f", "Total Cost.....", "...............", this.cart.getTotal()) );
-        System.out.println(END_LINE);
     }
     
     public String changeCard(Scanner in){
