@@ -7,11 +7,11 @@ import java.util.HashMap;
 class Order implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private String status, name, address, phone, authNumber;
+    private String status, name, address, phone, card, authNumber;
     private Date date;
     private Cart cart;
 
-    public Order(Cart cart, Date orderDate, String name, String phone, String address, String auth) {
+    public Order(Cart cart, Date orderDate, String name, String phone, String address, String card, String auth) {
         this.status = "ORDERED";
         this.cart = cart;
         this.date = orderDate;
@@ -19,6 +19,7 @@ class Order implements Serializable {
         this.name = name;
         this.phone = phone;
         this.address = address;
+        this.card = card;
         this.authNumber = auth;
     }
 
@@ -63,7 +64,8 @@ class Order implements Serializable {
         
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         System.out.println("--------------------------------------------------");
-        System.out.println("Order Made On: " + dateFormat.format(date) + "\n");
+        System.out.println("Order Made On: " + dateFormat.format(date));
+        System.out.println("Credit Card: " + card);
         System.out.println("Status: " + status + "\n");
         
         System.out.println( String.format("%-15s%15s%15s", "<Items>", "<Quantity>", "<Cost>") );
