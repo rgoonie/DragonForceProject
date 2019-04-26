@@ -73,7 +73,7 @@ class Customer extends User implements Serializable, CustomerConstants {
                     System.out.println("Cancelled addition to cart...");
                     continue;
                 }                
-                this.cart.addItem(list.get(input.charAt(0) - 49), amount);
+                this.cart.addItem(list.get(selection - 1), amount);
                 System.out.println(amount + " " + list.get(selection - 1).getName() + "(s) was added to your cart.");
             }
         }
@@ -96,9 +96,9 @@ class Customer extends User implements Serializable, CustomerConstants {
             System.out.println("[e]xit");
 
             System.out.print("Which item would you like to remove to cart:: ");
-            String input = cleanInput(in.nextLine());
+            String input = in.nextLine().replace(" ", "").toLowerCase();
             while(input.equals(""))
-                input += cleanInput(in.nextLine());
+                input += in.nextLine().replace(" ", "").toLowerCase();
 
             Integer selection = convertToInt(input);
             if(selection != null && (selection > list.size() || selection < 1))
@@ -107,9 +107,9 @@ class Customer extends User implements Serializable, CustomerConstants {
             while(input.charAt(0) != 'e' && selection == null) {
                 System.out.println("'" + input + "' is not a valid input... please try again\n");
                 System.out.print("Which item would you like to remove to cart:: ");
-                input = cleanInput(in.nextLine());
-                while( input.equals("") ) 
-                    input += cleanInput(in.nextLine());
+                input = in.nextLine().replace(" ", "").toLowerCase();
+                while(input.equals(""))
+                    input += in.nextLine().replace(" ", "").toLowerCase();
                 
                 selection = convertToInt(input);
                 if(selection != null && (selection > list.size() || selection < 1))
@@ -137,8 +137,8 @@ class Customer extends User implements Serializable, CustomerConstants {
                     System.out.println("Cancelled removal from cart...");
                     continue;
                 }                
-                cart.removeItem(list.get(input.charAt(0) - 49), amount);
-                System.out.println(amount + " " + list.get(input.charAt(0) - 49).getName() + "(s) was removed from your cart.");
+                cart.removeItem(list.get(selection - 1), amount);
+                System.out.println(amount + " " + list.get(selection - 1).getName() + "(s) was removed from your cart.");
             }
         }
     }
@@ -159,7 +159,7 @@ class Customer extends User implements Serializable, CustomerConstants {
      * Places the order and empties the cart
      */
     public Order makeOrderRequest(String auth) {
-        Order res =  new Order( this.cart, new Date(), this.name, this.phoneNumber, this.address, auth );
+        Order res =  new Order( this.cart, new Date(), this.name, this.phoneNumber, this.address, this.creditCardNumber, auth );
         this.cart = new Cart();
         
         return res;
@@ -182,9 +182,9 @@ class Customer extends User implements Serializable, CustomerConstants {
         while(credit.equals("")) {
             System.out.print("Enter a credit card number or 'e' to exit:: ");
             
-            credit = cleanInput(in.nextLine().replace('-', ' '));
+            credit = in.nextLine().replace('-', ' ').replace(" ", "");
             while( credit.equals("") )
-                credit = cleanInput(in.nextLine().replace('-', ' '));
+                credit = in.nextLine().replace('-', ' ').replace(" ", "").toLowerCase();
 
             try {
                 if(credit.charAt(0) == 'e'){
@@ -203,11 +203,11 @@ class Customer extends User implements Serializable, CustomerConstants {
 
 //---------------------------Get Methods----------------------------------------    
     
-    public String getName(){ return this.name; }
-    public String getPhoneNumber(){ return this.phoneNumber; }
-    public String getAddress(){ return this.address; }
-    public String getCreditCard(){ return this.creditCardNumber; }
-    public double getCartCost(){ return this.cart.getTotal(); }
+    public String getName(){ return name; }
+    public String getPhoneNumber(){ return phoneNumber; }
+    public String getAddress(){ return address; };
+    public String getCreditCard(){ return creditCardNumber; }
+    public double getCartCost(){ return cart.getTotal(); }
 
 //---------------------------Overriden Methods----------------------------------
 
@@ -215,7 +215,13 @@ class Customer extends User implements Serializable, CustomerConstants {
     int menu(Scanner in) {
         int selection = -1;
         
-        System.out.println(MENU);
+        System.out.println("\n\n------------Menu------------");
+        System.out.println("[a]dd items to cart");
+        System.out.println("[r]emove items from cart");
+        System.out.println("[s]how cart");
+        System.out.println("[m]ake order request");
+        System.out.println("[v]iew order");
+        System.out.println("[l]og out");
 
         while(selection == -1) {
             System.out.print("Enter your choice (a, r, s, m, v, l):: ");
@@ -225,12 +231,12 @@ class Customer extends User implements Serializable, CustomerConstants {
                 input += cleanInput(in.nextLine());
 
             switch(input.charAt(0)){
-                case ADD: selection =  3; break;
-                case REMOVE: selection =  9; break;
-                case SELECT: selection = 10; break;
-                case MAKE: selection =  4; break;
-                case VIEW: selection =  5; break;
-                case LOGOUT: selection =  1; break;
+                case 'a': selection =  3; break;
+                case 'r': selection =  9; break;
+                case 's': selection = 10; break;
+                case 'm': selection =  4; break;
+                case 'v': selection =  5; break;
+                case 'l': selection =  1; break;
 
                 default: System.out.println("'" + input.charAt(0) + "' is not a valid input - please try again\n" );
             }
