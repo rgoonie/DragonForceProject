@@ -19,18 +19,31 @@ class Cart implements Serializable{
      * @param quantity The amount of the item to be added
      */
     public void addItem(Item item, int quantity) {
-        if( items.get(item) != null)
-            items.put(item, items.get(item) + quantity);
-        else
+        boolean added = false;
+        for(Item i : items.keySet()){
+            if(i.getName().equals(item.getName())){
+                items.put(i, items.get(i) + quantity);
+                added = true;
+                break;
+            }
+        }
+        
+        if( !added )
             items.put(item, quantity);
             
         updateTotal();
     }
   
     public void removeItem(Item item, int quantity){
-        items.put(item, items.get(item) - quantity);
-        if(items.get(item) <= 0)
-            items.remove(item);
+        for(Item i : items.keySet()){
+            if( i.getName().equals(item.getName()) ){
+                items.put(i, items.get(i) - quantity);
+                if(items.get(i) <= 0)
+                    items.remove(i);
+                break;
+            }
+        }
+        
         updateTotal();
     }
     
