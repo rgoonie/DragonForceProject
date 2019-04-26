@@ -139,7 +139,13 @@ class ShoppingSystem implements ShoppingSystemConstants {
                     break;
                 
                 case 5: //View Order
-                    ((Customer)this.currUser).viewOrder();
+                	
+                	((Customer)this.currUser).viewOrder(kb, allOrders.get(currUser.id));
+                	                	
+                	// display order func
+
+                	
+                    //((Customer)this.currUser).viewOrder();
                     break;
                 
                 case 6: 
