@@ -19,10 +19,15 @@ class Cart implements Serializable{
      * @param quantity The amount of the item to be added
      */
     public void addItem(Item item, int quantity) {
+        
         boolean added = false;
         for(Item i : items.keySet()){
             if(i.getName().equals(item.getName())){
                 items.put(i, items.get(i) + quantity);
+                if(items.get(i) < 0 ){
+                    items.put(i, Integer.MAX_VALUE);
+                    System.out.println("Your cart contains the maximum amount of " + i.getName() + "(s)\n");
+                }
                 added = true;
                 break;
             }
