@@ -132,7 +132,6 @@ class Supplier extends User implements SupplierConstants {
      * @param numberRequested The quantity of the item requested
      * @return If there are enough of the item to fulfill the request
      */
-    //TODO Streamline
     public boolean checkAvalibility(Item item, int numberRequested) {
         for(Item i : catalog.keySet()){
             if(i.getName().equals(item.getName()))
