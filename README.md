@@ -8,7 +8,7 @@
 * A supplier will have at least 5 items. (Items are listed in the items.dat file)
 * For menu interfaces that are expecting only one character, only the first character entered will be evaluated excluding whitespace.
 * User Interface is ran in the console.
-* The maximum amount of items a custom is allowed to order in one order is Java's `Integer.MAX_VALUE`
+* The maximum amount of items a customer is allowed to order in one order is Java's `Integer.MAX_VALUE`
 * If a customer removes more items than they have in their cart, that item will just be removed from the cart, although the console states that the amount was removed.
 * If a customer tries to enter the same credit card number after being prompt to enter a new card during a transaction, the transaction will be cancelled.
 * When an order is being processed and items are being reserved, the items will be taken out of the inventory count so a supplier does not try to ship an order that request more items than the supplier can supply.
@@ -44,6 +44,8 @@
   * __customers.objects__	-> (this file contains the customer objects)
   * __orders.dat__ -> (this file contains usernames in the order that the Arraylist of Orders are stored in orders.objects)
   * __orders.objects__ -> (this file contains the ArrayList of Orders)
+* Only one instance of the program will run at a time
+* All files used for the program will only be updated after program is exited correctly after the
 
 ---
 ## Features to be added:
