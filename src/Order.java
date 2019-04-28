@@ -94,7 +94,7 @@ class Order implements Serializable {
         HashMap<Item, Integer> items = this.cart.getItems();
         
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-        System.out.println("--------------------------------------------------");
+        System.out.println("\n--------------------------------------------------");
         System.out.println("Order Made On: " + dateFormat.format(date));
         System.out.println("Credit Card: " + card);
         System.out.println("Status: " + status + "\n");
@@ -104,7 +104,7 @@ class Order implements Serializable {
             System.out.println( String.format("%-15s%15d%15.2f", item.getName(), items.get(item), item.getPrice()*items.get(item)) );
         }
         System.out.println( String.format("\n%-15s%15s%15.2f", "Total Cost.....", "...............", this.cart.getTotal()) );
-        System.out.println("--------------------------------------------------");
+        System.out.println("--------------------------------------------------\n");
         
     }
     

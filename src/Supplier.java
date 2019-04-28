@@ -66,10 +66,10 @@ class Supplier extends User implements SupplierConstants {
                 updateCatalog(items);
                 orderToProcess.setStatus("READY");
                 readiedStuff.add( orderedStuff.remove(selection - 1) );
-                System.out.println("The order has been processed and is ready to ship...\n");
+                System.out.println("\nThe order has been processed and is ready to ship...\n");
             }
             else{
-                System.out.println("This order cannot be processed at this time...");
+                System.out.println("\nThis order cannot be processed at this time...");
                 System.out.println("---OUT OF STOCK ITEMS---");
                 for(Item item: items.keySet())
                     if( checkAvalibility(item, items.get(item)) == false )
@@ -123,7 +123,7 @@ class Supplier extends User implements SupplierConstants {
             orderToProcess.setStatus("SHIPPED");
             
             readiedStuff.remove(selection -1);
-            System.out.println("The order has been shipped...\n");
+            System.out.println("\nThe order has been shipped...\n");
         }
     }
 

@@ -79,7 +79,6 @@ class Customer extends User implements Serializable, CustomerConstants {
                     continue;
                 }                
                 this.cart.addItem(list.get(selection - 1), amount);
-                System.out.println(amount + " " + list.get(selection - 1).getName() + "(s) was added to your cart.");
             }
         }
     }
@@ -93,7 +92,7 @@ class Customer extends User implements Serializable, CustomerConstants {
         while(true) {
             ArrayList<Item> list = new ArrayList<>(cart.getItems().keySet());
             if(list.isEmpty()){
-                System.out.println("Your cart is empty...\n");
+                System.out.println("\nYour cart is empty...\n");
                 return;
             }
             
@@ -187,7 +186,7 @@ class Customer extends User implements Serializable, CustomerConstants {
     	int i;
         while(true) {
             if(list.isEmpty()){
-                System.out.println("You have no orders...\n");
+                System.out.println("\nYou have no orders...\n");
                 return;
             }
             
@@ -236,7 +235,7 @@ class Customer extends User implements Serializable, CustomerConstants {
     public String changeCard(Scanner in){
         String credit = "";
         while(credit.equals("")) {
-            System.out.print("Enter a credit card number or 'e' to exit:: ");
+            System.out.print("Enter a new credit card number or 'e' to exit:: ");
             
             credit = cleanInput(in.nextLine().replace('-', ' '));
             while( credit.equals("") )

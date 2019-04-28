@@ -88,7 +88,7 @@ class ShoppingSystem implements ShoppingSystemConstants {
                             this.currUser = this.supplier;
                         }
                     } else {
-                        System.out.println("Sorry... Either your ID or Password is incorrect");
+                        System.out.println("\nSorry... Either your ID or Password is incorrect");
                     }
                     
                     break;
@@ -128,7 +128,7 @@ class ShoppingSystem implements ShoppingSystemConstants {
                     }
                     
                     if(auth == null){
-                        System.out.println("Your order request has been cancelled...");
+                        System.out.println("\nYour order request has been cancelled...");
                         break;
                     }                        
                     
@@ -197,7 +197,7 @@ class ShoppingSystem implements ShoppingSystemConstants {
 
             Scanner file = new Scanner( new File( LOGIN_FILE ) );
             while( file.hasNextLine() ){
-                String[] info = file.nextLine().split("-");
+                String[] info = file.nextLine().split("" + (char)31);
                 res.put(info[0], info[1]);
             }
             file.close();
@@ -214,7 +214,7 @@ class ShoppingSystem implements ShoppingSystemConstants {
         try {
             PrintWriter outFile = new PrintWriter(LOGIN_FILE);        
             for(String key : this.signInInfo.keySet()){
-                outFile.println(key + "-" + this.signInInfo.get(key));
+                outFile.println(key + (char)31 + this.signInInfo.get(key));
             }
             outFile.close();
         } catch(Exception e) {

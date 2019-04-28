@@ -26,15 +26,20 @@ class Cart implements Serializable{
                 items.put(i, items.get(i) + quantity);
                 if(items.get(i) < 0 ){
                     items.put(i, Integer.MAX_VALUE);
-                    System.out.println("Your cart contains the maximum amount of " + i.getName() + "(s)\n");
+                    System.out.println("\nYour cart contains the maximum amount of " + i.getName() + "(s)\n");
                 }
+				else{
+					System.out.println("\n" + quantity + " " + item.getName() + "(s) was added to your cart.\n");
+				}
                 added = true;
                 break;
             }
         }
         
-        if( !added )
+        if( !added ){
             items.put(item, quantity);
+			System.out.println("\n" + quantity + " " + item.getName() + "(s) was added to your cart.\n");
+		}
             
         updateTotal();
     }
